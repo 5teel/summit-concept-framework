@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!--
+  PROMOTION RECORD TEMPLATE — Summit Concept Framework
+  Filled by summit-concept-promote. Generated from the frozen CDR set + business case.
+  Replace {{tokens}}. Repeat blocks marked <!- - repeat: ... - -> once per item.
+
+  This document is PRESENTATION ONLY. The machine-readable source of truth for
+  approval is the PRD frontmatter (approved_by / approved_at / approval_record).
+  Never hand-author content that contradicts the PRD — both derive from one source.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Promotion Record — {{concept_name}}</title>
+<style>
+  :root{
+    --bg:#f5f6f9; --ink:#161c28; --muted:#646e80; --line:#e2e6ee; --card:#fff;
+    --concept:#10a294; --gate:#e0930b; --vi:#5159c8; --ink-band:#121a2c;
+    --ux:#10a294; --scope:#e0930b; --data:#5159c8; --integration:#8a52c0;
+    --ok:#1f9d55;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;padding:48px 36px;background:var(--bg);color:var(--ink);
+    font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:920px;margin:0 auto;}
+
+  /* header */
+  .head{background:var(--ink-band);color:#fff;border-radius:16px;padding:30px 32px;margin-bottom:26px;}
+  .head .kicker{font-size:11px;font-weight:700;letter-spacing:1.4px;color:#8b9ac4;text-transform:uppercase;}
+  .head h1{font-size:30px;margin:8px 0 10px;letter-spacing:-.5px;}
+  .head .summary{font-size:16px;line-height:1.55;color:#dbe2f2;max-width:680px;margin:0;}
+  .head .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:center;}
+  .badge{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+    padding:5px 12px;border-radius:30px;background:#1e2a45;color:#9fb0d6;}
+  .badge.status{background:var(--gate);color:#3a2602;}
+  .badge.status.approved{background:var(--ok);color:#fff;}
+  .head a.poc{font-size:13px;font-weight:600;color:#5fd4c6;text-decoration:none;
+    padding:5px 12px;border:1px solid #2a3a5c;border-radius:30px;}
+
+  /* sections */
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px 26px;margin-bottom:16px;box-shadow:0 2px 8px rgba(20,30,50,.05);}
+  section h2{font-size:13px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+    color:var(--muted);margin:0 0 14px;display:flex;align-items:center;gap:10px;}
+  section h2 .num{width:24px;height:24px;border-radius:7px;background:var(--ink-band);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:12px;}
+  section p{margin:0 0 10px;line-height:1.6;font-size:15px;}
+  section ul{margin:0;padding-left:20px;line-height:1.7;font-size:15px;}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .twocol h3{font-size:12px;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);margin:0 0 8px;}
+
+  /* CDR list */
+  .cdr{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-top:1px solid var(--line);}
+  .cdr:first-of-type{border-top:none;}
+  .cdr .id{font-family:Consolas,Menlo,monospace;font-size:12px;font-weight:700;color:var(--muted);
+    min-width:64px;padding-top:2px;}
+  .cdr .body{flex:1;}
+  .cdr .t{font-weight:600;font-size:14.5px;}
+  .cdr .why{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.45;}
+  .cdr .reqs{font-family:Consolas,Menlo,monospace;font-size:11px;color:var(--vi);margin-top:3px;}
+  .tag{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+    padding:3px 9px;border-radius:20px;color:#fff;white-space:nowrap;margin-top:2px;}
+  .tag.ux{background:var(--ux);} .tag.scope{background:var(--scope);}
+  .tag.data{background:var(--data);} .tag.integration{background:var(--integration);}
+
+  /* approval */
+  .approval{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+  .approval .cell{border:1px solid var(--line);border-radius:9px;padding:12px 14px;background:#fafbfd;}
+  .approval .k{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);}
+  .approval .v{font-size:14px;font-weight:600;margin-top:4px;}
+
+  /* links */
+  .links{display:flex;flex-wrap:wrap;gap:10px;}
+  .links a{font-size:14px;font-weight:600;color:var(--vi);text-decoration:none;
+    padding:9px 14px;border:1px solid var(--line);border-radius:9px;background:#fafbfd;}
+
+  .flag{background:#fdf3e2;border:1px solid #f0d49a;color:#9a6a08;border-radius:9px;
+    padding:10px 13px;font-size:13.5px;font-weight:600;margin-top:8px;}
+
+  footer{margin-top:24px;font-size:12.5px;color:var(--muted);text-align:center;line-height:1.6;}
+  footer b{color:var(--ink);}
+
+  @media (max-width:680px){.twocol{grid-template-columns:1fr;}.approval{grid-template-columns:1fr;}}
+  @media print{body{padding:0;background:#fff;}section,.head{box-shadow:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="kicker">Promotion Record</div>
+    <h1>{{concept_name}}</h1>
+    <p class="summary">{{one_line_summary}}</p>
+    <div class="meta">
+      <span class="badge status">{{status}}</span>
+      <span class="badge">{{frozen_cdr_count}} frozen CDRs</span>
+      <span class="badge">{{date}}</span>
+      <a class="poc" href="{{live_poc_url}}">Open live POC &rarr;</a>
+    </div>
+  </div>
+
+  <section>
+    <h2><span class="num">1</span>Core features &amp; experience</h2>
+    <ul>
+      <!-- repeat per type:ux CDR -->
+      <li>{{feature}}</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="twocol">
+      <div>
+        <h2><span class="num">2</span>Who uses it</h2>
+        <p>{{users_and_jobs}}</p>
+      </div>
+      <div>
+        <h2><span class="num">3</span>Summit fit</h2>
+        <p>{{summit_fit}}</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>Customer value</h2>
+    <p>{{customer_value}}</p>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>Commercialisation</h2>
+    <p>{{commercialisation}}</p>
+    <!-- if TBD: --><div class="flag">{{commercialisation_flag}}</div>
+  </section>
+
+  <section>
+    <h2><span class="num">6</span>Frozen CDR set — the spec handed to IT</h2>
+    <!-- repeat per Frozen CDR -->
+    <div class="cdr">
+      <div class="id">{{cdr_id}}</div>
+      <div class="body">
+        <div class="t">{{cdr_title}}</div>
+        <div class="why">{{cdr_why}}</div>
+        <div class="reqs">&rarr; {{prd_requirement_ids}}</div>
+      </div>
+      <span class="tag {{cdr_type}}">{{cdr_type}}</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">7</span>Approval</h2>
+    <div class="approval">
+      <div class="cell"><div class="k">Approved by</div><div class="v">{{approved_by}}</div></div>
+      <div class="cell"><div class="k">Approved</div><div class="v">{{approved_at}}</div></div>
+      <div class="cell"><div class="k">Record</div><div class="v">{{approval_record}}</div></div>
+    </div>
+    <!-- if pending: --><div class="flag">{{approval_flag}}</div>
+  </section>
+
+  <section>
+    <h2><span class="num">8</span>Links</h2>
+    <div class="links">
+      <a href="{{prd_url}}">PRD — build spec</a>
+      <a href="{{repo_url}}">Repo / POC baseline</a>
+      <a href="{{live_poc_url}}">Live POC</a>
+      <a href="{{materials_url}}">Supporting materials</a>
+    </div>
+  </section>
+
+  <footer>
+    Produced by <b>Report Writers</b> &nbsp;·&nbsp; Approved by <b>product / leadership</b><br>
+    Rendered from the frozen CDR set — single source of truth, consistent with the PRD.<br>
+    Presentation only — the machine-readable approval lives in the PRD frontmatter.
+  </footer>
+
+</div>
+</body>
+</html>
