@@ -4,7 +4,8 @@ concept: "[concept-name]"
 type: "ux"                        # ux | scope | data | integration — drives PRD structure
 status: "Proposed"                # Proposed | Needs Review | Active | Frozen | Superseded
 date: "YYYY-MM-DD"                # date the decision was taken (not recorded)
-authors: "[Report Writer name]"
+authors: "[Concept Writer name]"  # CDRs are authored by Concept Writers only —
+report_writer: "[Report Writer]"  # the RW who built the POC and supplied the "why"
 tags: ["concept", "decision"]
 supersedes: ""                    # CDR id this replaces, if any (e.g. "CDR-004")
 superseded_by: ""                 # filled in only when a later CDR overrides this one

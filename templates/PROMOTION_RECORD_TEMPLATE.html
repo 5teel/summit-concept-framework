@@ -4,9 +4,9 @@
   Filled by summit-concept-promote. Generated from the frozen CDR set + business case.
   Replace {{tokens}}. Repeat blocks marked <!- - repeat: ... - -> once per item.
 
-  This document is PRESENTATION ONLY. The machine-readable source of truth for
-  approval is the PRD frontmatter (approved_by / approved_at / approval_record).
-  Never hand-author content that contradicts the PRD — both derive from one source.
+  This document is PRESENTATION ONLY. It renders from PROMOTION.md — the
+  machine-readable source of truth for the business case and the approval block
+  (approved_by / approved_at / approval_record). Never hand-author content here.
 -->
 <html lang="en">
 <head>
@@ -142,7 +142,7 @@
       <div class="body">
         <div class="t">{{cdr_title}}</div>
         <div class="why">{{cdr_why}}</div>
-        <div class="reqs">&rarr; {{prd_requirement_ids}}</div>
+        <!-- exception path only (PRD authored pre-handoff): --><div class="reqs">&rarr; {{prd_requirement_ids}}</div>
       </div>
       <span class="tag {{cdr_type}}">{{cdr_type}}</span>
     </div>
@@ -161,7 +161,7 @@
   <section>
     <h2><span class="num">8</span>Links</h2>
     <div class="links">
-      <a href="{{prd_url}}">PRD — build spec</a>
+      <!-- exception path only: --><a href="{{prd_url}}">PRD — build spec</a>
       <a href="{{repo_url}}">Repo / POC baseline</a>
       <a href="{{live_poc_url}}">Live POC</a>
       <a href="{{materials_url}}">Supporting materials</a>
@@ -169,9 +169,9 @@
   </section>
 
   <footer>
-    Produced by <b>Report Writers</b> &nbsp;·&nbsp; Approved by <b>product / leadership</b><br>
-    Rendered from the frozen CDR set — single source of truth, consistent with the PRD.<br>
-    Presentation only — the machine-readable approval lives in the PRD frontmatter.
+    Concept by <b>Report Writers</b> &nbsp;·&nbsp; Produced by <b>Concept Writers</b> &nbsp;·&nbsp; Approved by <b>product / leadership</b><br>
+    Rendered from PROMOTION.md + the frozen CDR set — single source of truth.<br>
+    Presentation only — the machine-readable approval lives in the PROMOTION.md frontmatter.
   </footer>
 
 </div>

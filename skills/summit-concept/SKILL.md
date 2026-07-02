@@ -1,9 +1,10 @@
 ---
 name: summit-concept
-description: Start or attach a concept track in a POC workspace. Scaffolds
-  concepts/<name>/ (NOTES.md + cdr/ + promotion/) additively. The on-ramp for the
-  summit-concept-* loop (harvest → promote → handoff). Part of the Summit Concept
-  Framework, sibling to the Summit Agentic Framework. Forward-only capture.
+description: Start or attach a concept track in a POC workspace (Report Writer
+  skill). Scaffolds concepts/<name>/ (NOTES.md + cdr/ + promotion/) additively.
+  The on-ramp for the summit-concept-* loop (submit → harvest → promote →
+  handoff). Part of the Summit Concept Framework, sibling to the Summit Agentic
+  Framework. Forward-only capture.
 allowed-tools:
   - Read
   - Write
@@ -22,9 +23,16 @@ concept spec (CDRs) is captured. The POC *code* is disposable; the records under
 Summit Agentic Framework. You scaffold the home and hand the writer the loop —
 you do not build the POC and you do not author CDRs.
 
-> This is the on-ramp. Downstream: `summit-concept-harvest` distils CDRs at
-> breakpoints, `summit-concept-promote` runs the gate, `summit-concept-handoff`
-> seeds the VI project after approval. You only create the scaffold they operate on.
+> **Roles.** This is a **Report Writer** skill — RWs explore and build. What an
+> RW produces stays in `concepts/<name>/` until it passes the submission gate:
+> `summit-concept-submit` packages the concept and a **Concept Writer** triages
+> it. Only Concept Writers author CDRs (harvest), run promotion, and hand off.
+> **IT** authors the PRD in most cases and develops under the Agentic Framework.
+>
+> This is the on-ramp. Downstream: `summit-concept-submit` gates entry,
+> `summit-concept-harvest` distils CDRs, `summit-concept-promote` runs the
+> approval gate, `summit-concept-handoff` seeds the VI project. You only create
+> the scaffold they operate on.
 
 ## 1. Resolve the concept name
 - Take `<name>` from the invocation (e.g. `summit-concept uplift-cards`). Slugify it:
@@ -72,24 +80,32 @@ concepts/<name>/
 - `promotion/` — create the empty dir (a `.gitkeep` is fine) so the gate has a home.
 
 Templates resolve from the **Summit Concept Framework** repo (junction-linked or
-`~/.claude/skills/summit-concept/templates/` fallback) — `CDR_TEMPLATE.md`,
-`PRD_TEMPLATE.md`, `NOTES_TEMPLATE.md`, `PROMOTION_RECORD_TEMPLATE.html` are the
-Summit-owned canonical source the harvest, promote, and handoff skills draw from.
+`~/.claude/skills/summit-concept/templates/` fallback) — `SUBMISSION_TEMPLATE.md`,
+`CDR_TEMPLATE.md`, `PROMOTION_TEMPLATE.md`, `PRD_TEMPLATE.md`,
+`NOTES_TEMPLATE.md`, `PROMOTION_RECORD_TEMPLATE.html` are the Summit-owned
+canonical source the submit, harvest, promote, and handoff skills draw from.
 
 ## 5. Hand over the loop
 After scaffolding, tell the writer how to run it — concisely:
 
+**Yours (Report Writer):**
 1. **Build the POC.** Code is throwaway; optimise for learning, not durability.
 2. **Drop one-liners in `NOTES.md`** whenever something feels decided (`!`), is an
    open question (`?`), or is just an observation. No ceremony.
-3. **Run `summit-concept-harvest` at natural breakpoints** (a screen feels done,
-   before a demo, end of a cycle, weekly) to distil settled decisions into CDRs.
-4. **Run `summit-concept-promote` at the gate** to freeze the CDR set and produce
-   the PRD + HTML approval record.
-5. **Run `summit-concept-handoff` after approval** to seed the VI development
-   project under the Summit Agentic Framework.
+3. **Run `summit-concept-submit` when the concept is demonstrable.** It checks
+   the completeness checklist before packaging — gaps surface to you first, not
+   to the pipeline. A Concept Writer triages: Accepted / Returned / Rejected.
 
-Report: the path created and the five-step loop.
+**Downstream (Concept Writer, once Accepted):**
+4. `summit-concept-harvest` at natural breakpoints — distils settled decisions
+   into CDRs, with your input on the "why".
+5. `summit-concept-promote` at the gate — freezes the CDR set, produces
+   PROMOTION.md + the HTML approval record.
+6. `summit-concept-handoff` after approval — seeds the VI development project.
+   IT authors the PRD from the frozen CDRs (in most cases) and takes over under
+   the Summit Agentic Framework.
+
+Report: the path created, the writer's three steps, and where the baton passes.
 
 ## 6. The cdr/README.md to write (in-skill artifact doc)
 Write this verbatim into `concepts/<name>/cdr/README.md`:
@@ -102,10 +118,12 @@ it, what's deliberately out, and what it assumes. This folder is the spec that
 is promoted and handed to VI development. The POC *code* is throwaway; these
 records are the durable asset.
 
-## You do not write these by hand during development
-Just build. Drop the occasional one-liner in NOTES.md if something feels decided.
-CDRs are produced retrospectively by the harvest — run it at natural breakpoints
-(a screen feels done, before a demo, end of a build cycle, or weekly).
+## You do not write these by hand — ever
+Report Writers never author CDRs. Just build, and drop the occasional one-liner
+in NOTES.md if something feels decided. Once the concept passes submission
+triage, CDRs are produced retrospectively by the harvest, curated by the
+**Concept Writer** assigned to the concept — you'll be consulted for the "why"
+behind decisions the evidence doesn't explain.
 
 ## What is and isn't a CDR
 - A CDR captures a **settled, concept-level** decision: survived a few iterations,

@@ -1,31 +1,38 @@
 ---
 title: "PRD: [Concept Name]"
 concept: "[concept-name]"
-status: "Ready for Approval"      # Draft | Ready for Approval | Approved | Rejected
+status: "Draft"                   # Draft | Active | Superseded
 date: "YYYY-MM-DD"
-authors: "[Report Writer name]"
+authors: "[Name]"
+authored_by_role: "IT"            # IT (default — authored after handoff, from the frozen CDR set)
+                                  # | Concept Writer (exception — authored pre-handoff; the trigger
+                                  #   is recorded in PROMOTION.md `prd_exception_trigger`)
 tags: ["prd", "concept"]
 frozen_cdrs: 0                    # count of Frozen CDRs this PRD derives from
 cdr_freeze_ref: ""                # commit SHA or date the CDR set was frozen at
+promotion_ref: "PROMOTION.md"     # the approved promotion this PRD derives from —
+                                  # approval lives THERE (machine-readable), never here
 poc_baseline: ""                  # repo / live POC link — the runnable reference IT evaluates against
-# --- approval block: machine-readable source of truth. summit-concept-handoff ---
-# --- refuses to act unless status is "Approved" AND all three fields are filled. ---
-approved_by: ""                   # who granted promotion (product / leadership) — never the packager
-approved_at: ""                   # YYYY-MM-DD
-approval_record: ""               # link/ref to approval evidence (thread, ticket, sign-off)
 ---
 
 # PRD: [Concept Name]
 
-> Forward-looking build spec for IT. Says **what** to build, never **how**.
-> Every requirement traces to a Concept Decision Record statement
-> (`CDR-NNN:DEC-NNN`) for provenance. Architecture, framework, and stack are
-> IT's post-handoff ADR decisions, constrained by the Agentic Framework's
-> `DEPENDENCY-POLICY.md`.
+> Forward-looking build spec. Says **what** to build, never **how**.
+> **Derived, never authoritative**: every requirement traces to a Concept
+> Decision Record statement (`CDR-NNN:DEC-NNN`); on any conflict the frozen
+> CDRs win. Authored by **IT in most cases** (after handoff, as the first act
+> of development) or by a **Concept Writer by exception** (pre-handoff, when
+> the trigger recorded in `PROMOTION.md` applies). Report Writers never author
+> PRDs. Architecture, framework, and stack are IT's ADR decisions, constrained
+> by the Agentic Framework's `DEPENDENCY-POLICY.md`.
 
 ## Status
 
-Draft | **Ready for Approval** | Approved | Rejected
+**Draft** | Active | Superseded
+
+> A PRD needs no approval of its own — it derives from an already-approved
+> promotion (`promotion_ref`). It becomes `Active` when its authoring role
+> confirms every requirement traces cleanly to the frozen CDR set.
 
 ---
 
@@ -141,6 +148,7 @@ CDR's `HND-003` item.
 ## 10. References
 
 - **REF-001**: Frozen CDR set (the why behind each requirement): `cdr/`
-- **REF-002**: POC baseline (runnable reference): [link]
-- **REF-003**: Promotion record (business case + approval): `promotion/promotion-record.html`
-- **REF-004**: Summit Agentic Framework (governs the receiving project): [repo link]
+- **REF-002**: Approved promotion (business case + machine-readable approval): `PROMOTION.md`
+- **REF-003**: POC baseline (runnable reference): [link]
+- **REF-004**: Promotion record, rendered (presentation only): `promotion/promotion-record.html`
+- **REF-005**: Summit Agentic Framework (governs the receiving project): [repo link]
