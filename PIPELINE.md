@@ -1,12 +1,17 @@
 # The Concept Pipeline
 
-> How a proof-of-concept becomes a governed VI development project.
+> How a proof-of-concept becomes an approved handoff into VI development.
 > Six stages, four gates, one source of truth at every step.
 >
 > Roles: **RW** = Report Writer · **CW** = Concept Writer · **IT** = VI development.
 > The role separation is the pipeline's quality mechanism: RWs explore freely,
-> CWs filter and formalise, IT builds. No stage accepts unfiltered input from
-> the stage before it.
+> CWs filter, formalise, and promote; IT builds. No stage accepts unfiltered
+> input from the stage before it.
+>
+> **Scope boundary:** this framework ends at the handoff. The PRD is the
+> acknowledged next step, but it is **IT's process** — downstream of the
+> requirements and standards defined by the ADRs in the Summit Agentic
+> Framework. Nothing in this pipeline authors, templates, or gates a PRD.
 
 ---
 
@@ -18,8 +23,11 @@
 | 2. Build & Capture | RW | (none — just build) | Scaffold | POC code + `NOTES.md` lines | — |
 | 3. Submit | RW → CW | `summit-concept-submit` | Demonstrable POC | `SUBMISSION.md` | **Triage — CW accepts / returns / rejects** |
 | 4. Harvest | CW | `summit-concept-harvest` | Accepted submission + diff | Curated `CDR-NNN` records | **CW confirms every CDR** |
-| 5. Promote | CW | `summit-concept-promote` | Active CDR set + business case | Frozen CDRs, `PROMOTION.md`, HTML record *(+ PRD by exception)* | **Product / leadership approve** |
-| 6. Handoff | CW → IT | `summit-concept-handoff` | Approved promotion | VI project seed; **IT authors PRD** *(default)* | **Handoff validation — refuses on conflict** |
+| 5. Promote | CW | `summit-concept-promote` | Active CDR set + business case | Frozen CDRs, `PROMOTION.md`, HTML record | **CW approval — recorded in the approval block** |
+| 6. Handoff | CW → IT | `summit-concept-handoff` | Approved promotion | VI project seed | **Handoff validation — refuses on conflict** |
+
+After Stage 6, ownership is IT's: PRD, ADRs, and build under the Summit Agentic
+Framework.
 
 ---
 
@@ -101,38 +109,35 @@ must pass three tests:
 The **Concept Writer** confirms / edits / discards each proposal — consulting
 the Report Writer for the "why" behind decisions the evidence doesn't explain.
 Nothing is written unconfirmed. Confirmed records get sequential IDs and typed
-classification (`ux | scope | data | integration`) — the type drives PRD
-structure downstream.
+classification (`ux | scope | data | integration`) — the type tells IT which
+requirement area each record feeds downstream.
 
 Decisions that reverse an earlier CDR **supersede** it — the old record is never
 edited in place. The supersession trail is the reasoning history IT needs at rebuild.
 
 ---
 
-## Stage 5 — Promote (gate: product / leadership approval)
+## Stage 5 — Promote (gate: Concept Writer approval)
 
 `summit-concept-promote` (run by the **CW**) runs the promotion gate:
 
 1. **Final harvest** — never promote a stale set.
 2. **Freeze** — every `Active` CDR flips to `Frozen`; the set is now immutable.
 3. **Business case** — gathered from the RW and product; commercialisation
-   claims must be sourced from product / commercial or marked `TBD` and flagged.
+   claims must be **sourced** from product / commercial or marked `TBD` and
+   flagged. Promotion authority does not extend to inventing business facts.
 4. **`PROMOTION.md`** — the machine-readable promotion document: business case,
-   freeze manifest, PRD-path declaration, and the **approval block** (blank at
-   this stage). The HTML record renders from it — presentation only.
-5. **PRD — exception path only.** By default no PRD is written here; IT authors
-   it after handoff. A Concept Writer authors it now *only* when product /
-   leadership want requirements fixed at approval time, or IT requests it —
-   and records which trigger applied in `PROMOTION.md`.
+   freeze manifest, flagged gaps, and the **approval block**. The HTML record
+   renders from it — presentation only.
+5. **Approve.** Promotion authority sits with **Concept Writers**. The CW fills
+   the approval block (`approved_by`, `approved_at`, `approval_record`, status →
+   `"Approved"`) — the decision is always attributable and machine-verifiable.
+   A CW may equally hold a promotion at `Ready for Approval` for another CW or
+   for product / leadership input on commercially significant concepts — but
+   the framework does not require it.
 
-**Approval:** product / leadership fill the approval block in `PROMOTION.md`
-frontmatter (`approved_by`, `approved_at`, `approval_record`, status →
-`"Approved"`). The packager is never the approver.
-
-**Traceability rule (both PRD paths):** every PRD requirement carries a trace to
-a specific decision statement — `CDR-004:DEC-002`, not just `CDR-004`.
-Sub-record tracing is what lets IT (and AI code review) answer "why does this
-requirement exist?" without re-reading the whole record set.
+**No PRD is produced at this stage — or any stage.** The PRD is IT's downstream
+process.
 
 ---
 
@@ -143,32 +148,29 @@ requirement exist?" without re-reading the whole record set.
 - `PROMOTION.md` frontmatter `status: "Approved"` **and** `approved_by` +
   `approved_at` + `approval_record` are all filled. Missing any → refuse.
 - The frozen CDR set matches the freeze manifest. Drift → refuse.
-- If an exception-path PRD exists: it is consistent with the frozen CDR set.
-  Conflict → refuse until resolved (**frozen CDRs are authoritative; every PRD
-  is derived**).
 
 It then produces the **VI project seed** — pre-filled starters for the Agentic
 Framework's project-context files:
 
 | Source | Seeds |
 |---|---|
-| PROMOTION.md problem & outcome | `PROJECT.md` → Identity block |
+| PROMOTION.md concept summary | `PROJECT.md` → Identity block |
 | Frozen CDR `HND-002` invariants | `PROJECT.md` → Non-Negotiable Rules |
-| Frozen `scope` / `ux` CDRs | `CONTEXT.md` → Current Focus + Active Work |
+| Frozen CDR `DEC-*` statements by type | `CONTEXT.md` → Active Work (raw material for IT's PRD) |
 | Frozen `integration` CDRs | `CONTEXT.md` → assumptions to validate first |
 | POC baseline + `EVD-*` evidence | `CONTEXT.md` → Quality Status (acceptance reference) |
 
-**Then IT takes over.** In most cases IT's first act is **authoring the PRD**
-from the frozen CDR set using this framework's `PRD_TEMPLATE.md` — the team
-that builds writes the requirements it will build to. From there development
-runs entirely under the Summit Agentic Framework: ADRs for the *how*,
-`DEPENDENCY-POLICY.md` for libraries, project-context files kept current.
+**Then IT takes over — outside this framework.** IT authors the **PRD** from
+the frozen CDR set under its own process, downstream of the requirements and
+standards defined by the Agentic Framework's ADRs. The concept framework's only
+claims on that process are the boundary rules below.
 
 What the handoff **never** does:
 
 - Never chooses architecture, framework, or stack.
 - Never fills approval fields itself.
 - Never rewrites a frozen CDR.
+- Never authors or packages a PRD.
 
 ---
 
@@ -176,16 +178,19 @@ What the handoff **never** does:
 
 1. The gate into the pipeline is **Submission triage** — Report Writers submit;
    Concept Writers admit. Nothing bypasses it.
-2. The gate out is **promotion approval** (`summit-concept-promote`) — one gate,
-   one name.
-3. **Frozen CDRs win** over any PRD (whichever role authored it); the PRD wins
-   over the promotion record (which is presentation only).
-4. **Approval is machine-readable** — `PROMOTION.md` frontmatter, not the HTML,
-   not the PRD.
-5. **Additive only** — the concept track never edits files owned by another
+2. The gate out is **promotion approval** — authority sits with **Concept
+   Writers**, recorded machine-readably in `PROMOTION.md`. One gate, one name.
+3. **Frozen CDRs win** over anything derived from them — IT's PRD, backlog,
+   or any other downstream artifact. `PROMOTION.md` wins over the HTML record
+   (presentation only).
+4. **Approval is machine-readable** — `PROMOTION.md` frontmatter, not the HTML.
+5. **The PRD is outside the framework.** IT owns it, downstream of the Agentic
+   Framework's ADRs. This framework delivers the frozen CDR set the PRD derives
+   from — nothing more.
+6. **Additive only** — the concept track never edits files owned by another
    framework or project. New files only.
-6. **Role separation is enforced by the skills**: submit refuses an incomplete
+7. **Role separation is enforced by the skills**: submit refuses an incomplete
    checklist; harvest refuses an un-triaged concept; handoff refuses an
    unapproved promotion. A skill that can't verify its gate, refuses.
-7. `summit-concept-promote` is permanently distinct from any other "promote" in
+8. `summit-concept-promote` is permanently distinct from any other "promote" in
    Summit tooling — never merged, never aliased.

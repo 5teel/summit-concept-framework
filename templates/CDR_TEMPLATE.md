@@ -32,8 +32,9 @@ Why did this decision come up? What was the user trying to do?]
 
 ## Decision
 
-> One statement per DEC item. Each is individually traceable — PRD requirements
-> reference `CDR-NNN:DEC-NNN`, so keep statements atomic and present tense.
+> One statement per DEC item. Each is individually traceable — downstream
+> requirements (IT's PRD) reference `CDR-NNN:DEC-NNN`, so keep statements
+> atomic and present tense.
 
 - **DEC-001**: [Primary decision statement — "Results render as a card grid."]
 - **DEC-002**: [Consequential decision bundled with it, if genuinely inseparable]
@@ -88,9 +89,10 @@ Why did this decision come up? What was the user trying to do?]
 > The Enforcement analog for concept records: how this decision is consumed
 > downstream. Filled at harvest; checked at promotion and handoff.
 
-- **HND-001**: **PRD destination**: [Which PRD section this feeds — derived from `type`:
-  ux → Features & Experience · scope → Scope · data → Data Requirements ·
-  integration → Integration & Assumptions]
+- **HND-001**: **Requirement area**: [Which downstream requirement area this feeds —
+  derived from `type`: ux → features & experience · scope → in/out of scope ·
+  data → data requirements & constraints · integration → integration & assumptions.
+  IT's PRD (authored outside this framework) groups by these areas.]
 - **HND-002**: **What IT must preserve**: [The invariant a rebuild cannot violate —
   the thing that, if changed, means a different product was built]
 - **HND-003**: **What IT may vary**: [Explicitly negotiable — implementation latitude.
@@ -101,6 +103,6 @@ Why did this decision come up? What was the user trying to do?]
 
 ## Applies To
 
-| Concept | PRD Requirement(s) | Status |
+| Concept | Downstream Requirement(s) | Status |
 |---|---|---|
-| [concept-name] | [filled at promotion — e.g. REQ-003, REQ-004] | [Active / Frozen] |
+| [concept-name] | [optional back-reference, filled by IT once their PRD exists] | [Active / Frozen] |

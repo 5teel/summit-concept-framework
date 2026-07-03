@@ -9,14 +9,11 @@ tags: ["concept", "promotion"]
 frozen_cdrs: 0                    # count of Frozen CDRs in the manifest below
 cdr_freeze_ref: ""                # commit SHA or date the CDR set was frozen at
 poc_baseline: ""                  # repo / live POC link — the runnable reference
-prd_path: "IT"                    # IT (default — IT authors the PRD after handoff)
-                                  # | Concept Writer (exception — PRD authored pre-handoff)
-prd_exception_trigger: ""         # required if prd_path is "Concept Writer":
-                                  # who requested it (product / leadership / IT) and why
 # --- approval block: THE machine-readable source of truth for the whole promotion. ---
 # --- summit-concept-handoff refuses unless status is "Approved" AND all three filled. ---
-# --- Filled by product / leadership — never by the Concept Writer who packaged this. ---
-approved_by: ""                   # who granted promotion (product / leadership)
+# --- Promotion authority sits with Concept Writers — the approving CW fills this.    ---
+# --- Always attributable: name, date, and a record reference, never a verbal OK.     ---
+approved_by: ""                   # the Concept Writer granting promotion
 approved_at: ""                   # YYYY-MM-DD
 approval_record: ""               # link/ref to approval evidence (thread, ticket, sign-off)
 ---
@@ -44,6 +41,8 @@ accepted SUBMISSION.md, updated with what the build proved.]
 ## 2. Business Case
 
 > Gathered from the Report Writer and product — never invented by the packager.
+> Approval authority does not extend to inventing business facts:
+> commercialisation and Summit-fit claims are sourced, or marked TBD and flagged.
 
 ### Value to Summit
 
@@ -60,7 +59,7 @@ accepted SUBMISSION.md, updated with what the build proved.]
 ### Commercialisation
 
 - **COM-001**: [Must be sourced from product / commercial. If unavailable:
-  `TBD — pending product input` and flag it in the promotion report.]
+  `TBD — pending product input` and flag it in §4.]
 
 ---
 
@@ -78,25 +77,22 @@ never deleted).
 
 ---
 
-## 4. PRD Path
+## 4. Flagged Gaps
 
-**Path:** `IT` *(default)* | `Concept Writer` *(exception)*
+> Anything marked TBD or unsourced above, listed plainly so the approving
+> Concept Writer sees exactly what they are approving around.
 
-- **Default (`IT`)**: the handoff package carries the frozen CDR set only. IT
-  authors the PRD from it (framework `PRD_TEMPLATE.md`) as the first act of
-  development.
-- **Exception (`Concept Writer`)**: the PRD is authored before handoff and
-  included in the package. Requires `prd_exception_trigger` in frontmatter —
-  who asked for it and why. The PRD remains *derived*: frozen CDRs win any
-  conflict.
+- **FLG-001**: [e.g. "Commercialisation TBD — pending product input"]
 
 ---
 
-## 5. Flagged Gaps
+## 5. Downstream (outside this framework)
 
-> Anything marked TBD or unsourced above, listed plainly so approvers see it.
-
-- **FLG-001**: [e.g. "Commercialisation TBD — pending product input"]
+On handoff, IT owns everything from here: the **PRD** (authored from the frozen
+CDR set, under IT's process and the Agentic Framework's ADR standards), the
+ADRs, and the build. This promotion places no requirements on that process
+beyond the boundary rules: frozen CDRs win any conflict with derived artifacts,
+and frozen records are never edited.
 
 ---
 
@@ -106,4 +102,3 @@ never deleted).
 - **REF-002**: Accepted submission: `SUBMISSION.md`
 - **REF-003**: POC baseline (runnable reference): [link]
 - **REF-004**: Rendered approval package: `promotion/promotion-record.html`
-- **REF-005**: PRD *(exception path only)*: `promotion/PRD.md`

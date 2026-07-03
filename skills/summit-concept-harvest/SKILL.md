@@ -45,13 +45,13 @@ harvest yields a handful, sometimes zero.
 For each candidate:
 - Assign `type`: ux | scope | data | integration (dominant one; don't split).
 - Draft the **coded items** the template requires:
-  - `DEC-*` — atomic decision statements (these are what the PRD will trace to;
-    one statement per user-observable commitment)
+  - `DEC-*` — atomic decision statements (these are what IT's downstream
+    requirements will trace to; one statement per user-observable commitment)
   - `EVD-*` — evidence it settled (iterations survived, demo feedback, usage)
   - `ALT-*` — the rejected alternative(s) and why
   - `IMP-*` — impact on the user's workflow
-  - `HND-*` — handoff notes: which PRD section it feeds (from `type`), what IT
-    must preserve, what IT may vary
+  - `HND-*` — handoff notes: which requirement area it feeds (from `type`),
+    what IT must preserve, what IT may vary
 - If it reverses an existing `Active` CDR, propose marking that one `Superseded`
   and linking the pair (`supersedes` / `superseded_by`).
 - Infer rationale and the rejected alternative from the evidence. Mark anything you

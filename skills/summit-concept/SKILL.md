@@ -26,8 +26,10 @@ you do not build the POC and you do not author CDRs.
 > **Roles.** This is a **Report Writer** skill — RWs explore and build. What an
 > RW produces stays in `concepts/<name>/` until it passes the submission gate:
 > `summit-concept-submit` packages the concept and a **Concept Writer** triages
-> it. Only Concept Writers author CDRs (harvest), run promotion, and hand off.
-> **IT** authors the PRD in most cases and develops under the Agentic Framework.
+> it. Only Concept Writers author CDRs (harvest), and promotion authority sits
+> with them — they run and approve the gate, then hand off. **IT** takes over
+> from there under the Agentic Framework; IT's process (PRD, ADRs, build) is
+> outside this framework.
 >
 > This is the on-ramp. Downstream: `summit-concept-submit` gates entry,
 > `summit-concept-harvest` distils CDRs, `summit-concept-promote` runs the
@@ -81,9 +83,10 @@ concepts/<name>/
 
 Templates resolve from the **Summit Concept Framework** repo (junction-linked or
 `~/.claude/skills/summit-concept/templates/` fallback) — `SUBMISSION_TEMPLATE.md`,
-`CDR_TEMPLATE.md`, `PROMOTION_TEMPLATE.md`, `PRD_TEMPLATE.md`,
-`NOTES_TEMPLATE.md`, `PROMOTION_RECORD_TEMPLATE.html` are the Summit-owned
-canonical source the submit, harvest, promote, and handoff skills draw from.
+`CDR_TEMPLATE.md`, `PROMOTION_TEMPLATE.md`, `NOTES_TEMPLATE.md`,
+`PROMOTION_RECORD_TEMPLATE.html` are the Summit-owned canonical source the
+submit, harvest, promote, and handoff skills draw from. (No PRD template — the
+PRD is IT's artifact, outside this framework.)
 
 ## 5. Hand over the loop
 After scaffolding, tell the writer how to run it — concisely:
@@ -100,10 +103,11 @@ After scaffolding, tell the writer how to run it — concisely:
 4. `summit-concept-harvest` at natural breakpoints — distils settled decisions
    into CDRs, with your input on the "why".
 5. `summit-concept-promote` at the gate — freezes the CDR set, produces
-   PROMOTION.md + the HTML approval record.
+   PROMOTION.md + the HTML record, and approves (promotion authority sits with
+   Concept Writers).
 6. `summit-concept-handoff` after approval — seeds the VI development project.
-   IT authors the PRD from the frozen CDRs (in most cases) and takes over under
-   the Summit Agentic Framework.
+   From there IT takes over under the Summit Agentic Framework; IT's process
+   (PRD from the frozen CDRs, ADRs, build) is outside this framework.
 
 Report: the path created, the writer's three steps, and where the baton passes.
 
@@ -138,8 +142,8 @@ behind decisions the evidence doesn't explain.
 ## Conventions
 - One decision per file: `CDR-NNN-slug.md`, sequential, zero-padded, from the
   framework's CDR_TEMPLATE.md.
-- Decision statements are coded (`DEC-001`) and individually traceable — the PRD
-  references `CDR-NNN:DEC-NNN`. Keep them atomic.
+- Decision statements are coded (`DEC-001`) and individually traceable —
+  downstream requirements (IT's PRD) reference `CDR-NNN:DEC-NNN`. Keep them atomic.
 - Never edit a reversed decision in place — write a new CDR, mark the old one
   `Superseded`, cross-link with `supersedes` / `superseded_by`.
 - Status lifecycle: `Proposed → Needs Review → Active → Frozen → Superseded`.

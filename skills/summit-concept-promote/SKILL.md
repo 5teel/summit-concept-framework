@@ -3,9 +3,10 @@ name: summit-concept-promote
 description: Run the concept promotion gate (Concept Writer skill). Freezes the
   CDR set, gathers the business case, and produces PROMOTION.md (machine-readable
   source of truth incl. the approval block) plus the HTML promotion record.
-  Authors a PRD only on the exception path — by default IT authors the PRD after
-  handoff. Produced by Concept Writers; approved by product / leadership. Part of
-  the Summit Concept Framework.
+  Promotion authority sits with Concept Writers — the CW can approve in the same
+  session, recorded attributably in the approval block. No PRD is produced —
+  that is IT's downstream process under the Agentic Framework. Part of the
+  Summit Concept Framework.
 allowed-tools:
   - Read
   - Write
@@ -17,21 +18,26 @@ allowed-tools:
 
 # Promote a Concept
 
-You run the **promotion gate**: turn a proven concept into an approvable package.
+You run the **promotion gate**: turn a proven concept into an approved,
+handoff-ready package.
 
 > **Roles.** This is a **Concept Writer** skill. Report Writers never run
-> promotion — their involvement here is supplying business-case input. The
-> approver is product / leadership; the packager is never the approver.
+> promotion — their involvement here is supplying business-case input.
+> **Promotion authority sits with Concept Writers**: the CW who runs this gate
+> may also approve it, recorded attributably in the approval block. Authority
+> covers the promotion decision — it does not extend to inventing business
+> facts (commercialisation and Summit-fit are sourced or TBD).
 
 You produce:
 
 - **`PROMOTION.md`** → the machine-readable promotion document: business case,
-  freeze manifest, PRD-path declaration, approval block. **This is the source
-  of truth** the handoff validates against.
-- **HTML record** → product / leadership audience, to *approve*. Rendered from
-  `PROMOTION.md` — presentation only, never hand-authored content.
-- **PRD** → **exception path only** (see §4). By default IT authors the PRD
-  after handoff, from the frozen CDR set.
+  freeze manifest, flagged gaps, approval block. **This is the source of
+  truth** the handoff validates against.
+- **HTML record** → the visual promotion package. Rendered from `PROMOTION.md`
+  — presentation only, never hand-authored content.
+
+You do **not** produce a PRD — at this stage or any other. The PRD is IT's
+process after handoff, downstream of the Agentic Framework's ADRs.
 
 ## 0. Preconditions
 - `SUBMISSION.md` exists with `status: "Accepted"` — a concept that never passed
@@ -58,7 +64,7 @@ Collect from the Report Writer and product (ask; do not invent):
 - **Summit fit** — positioning vs the existing product & service range.
 - **Commercialisation** — **must be sourced from product / commercial, not guessed.**
   If it isn't available, write `TBD — pending product input` and flag it in
-  `PROMOTION.md` §5 and the final report. Same for any Summit-fit claim you
+  `PROMOTION.md` §4 and the final report. Same for any Summit-fit claim you
   can't ground.
 
 ## 3. Write PROMOTION.md
@@ -66,63 +72,48 @@ Collect from the Report Writer and product (ask; do not invent):
   `concepts/<name>/PROMOTION.md`.
 - Fill: concept summary, business case (coded `VAL-*`/`USR-*`/`FIT-*`/`COM-*`),
   the **freeze manifest** (every Frozen CDR listed — the handoff validates
-  `cdr/` against this table), the PRD path (§4), flagged gaps.
-- Status `Ready for Approval`; approval block **blank** (`approved_by` /
-  `approved_at` / `approval_record`). Never self-fill it.
+  `cdr/` against this table), flagged gaps.
+- Status `Ready for Approval`; approval block blank until step 5.
 
-## 4. PRD path — default is IT
-Declare in `PROMOTION.md` frontmatter:
-
-- **`prd_path: "IT"` (default).** No PRD is written now. IT authors it after
-  handoff from the frozen CDR set — the team that builds writes the requirements
-  it will build to.
-- **`prd_path: "Concept Writer"` (exception).** Only when product / leadership
-  want requirements fixed at approval time, or IT has requested a pre-authored
-  PRD. Record who asked and why in `prd_exception_trigger` — an empty trigger
-  with this path set is invalid.
-
-**If (and only if) the exception path applies**, write `promotion/PRD.md` from
-the framework's `templates/PRD_TEMPLATE.md`:
-- `authored_by_role: "Concept Writer"`, `promotion_ref` pointing at PROMOTION.md.
-- **Sub-record traceability is mandatory.** Every coded requirement (`REQ-*`,
-  `SCP-*`, `DAT-*`, `INT-*`) traces to a specific decision statement —
-  `CDR-NNN:DEC-NNN`, not just the CDR id.
-- Back-fill the CDRs' Applies To tables with the requirement ids (status-table
-  update only — content stays frozen).
-- Derive `SUC-*` success criteria from CDR `EVD-*` evidence where possible.
-- **Stack-agnostic** — never prescribe architecture, framework, or folder
-  structure. Carry each CDR's `HND-003` latitude notes into §8.
-
-## 5. Render the HTML record (approval package)
+## 4. Render the HTML record (promotion package)
 - Render `promotion/promotion-record.html` from the framework's
   `templates/PROMOTION_RECORD_TEMPLATE.html`, **from PROMOTION.md's content** —
   never hand-author content that isn't in the source.
-- The approval section renders **pending** — approval lives in PROMOTION.md
-  frontmatter and is blank at this stage.
-- Include the PRD link only on the exception path.
 - Link out to the live POC and the repo baseline.
+- If approval happens in this session (step 5), re-render so the approval
+  section shows it; otherwise it renders pending.
+
+## 5. Approval — Concept Writer authority
+- Ask the Concept Writer whether they are approving now.
+- **Approving now:** fill the approval block in `PROMOTION.md` frontmatter —
+  `approved_by` (the CW's name — a person, attributable), `approved_at`,
+  `approval_record` (thread / ticket / sign-off reference), and flip status to
+  `"Approved"`. Surface the §4 flagged gaps first — the CW approves *around*
+  them knowingly, never blindly.
+- **Holding:** leave the block blank at `Ready for Approval` — for another CW,
+  or for product / leadership input on commercially significant concepts. The
+  framework permits same-CW approval; it doesn't mandate it.
+- Never fill the block with anything other than a named person who actually
+  made the call in this session or is referenced in the approval record.
 
 ## 6. Output
-- `concepts/<name>/PROMOTION.md` + `promotion/promotion-record.html`
-  (+ `promotion/PRD.md` on the exception path only).
-- Report: what was produced, the frozen-CDR count, the declared PRD path and
-  trigger (if exception), and **any TBD / flagged gaps** — especially
-  commercialisation. State plainly: producer = Concept Writers, approver =
-  product / leadership, next step = product / leadership fill the approval block
-  in PROMOTION.md, then `summit-concept-handoff`.
+- `concepts/<name>/PROMOTION.md` + `promotion/promotion-record.html`.
+- Report: what was produced, the frozen-CDR count, approval state (approved by
+  whom, or held and for whom), and **any TBD / flagged gaps** — especially
+  commercialisation. Next step: `summit-concept-handoff` (which refuses unless
+  the approval block is complete). After handoff, the PRD and build are IT's —
+  outside this framework.
 
 ## Guardrails
-- **Single source of truth.** The HTML record renders from PROMOTION.md; any PRD
-  derives from the frozen CDRs. If artifacts disagree, you've made an error —
-  **reconcile toward the CDRs** (frozen CDRs > PROMOTION.md/PRD > HTML).
+- **Single source of truth.** The HTML record renders from PROMOTION.md. If
+  artifacts disagree, you've made an error — **reconcile toward the CDRs**
+  (frozen CDRs > PROMOTION.md > HTML).
 - **Only `Active` CDRs get frozen.** `Needs Review` must be confirmed or excluded first.
-- **The default PRD path is IT.** Don't author a PRD "to be helpful" — an
-  unrequested pre-authored PRD takes the build spec away from the team that
-  builds. Exception requires a recorded trigger.
-- **Don't invent** commercialisation or Summit-fit. Source it or mark it `TBD` and flag it.
-- **Don't promote stale.** If the harvest surfaces new settled decisions, capture
-  them before freezing.
-- **Never self-approve.** The approval block is product / leadership's alone.
-- **Every requirement traces or it doesn't ship** (exception-path PRD): a line
-  with no `CDR-NNN:DEC-NNN` trace is either a missed CDR (harvest it) or an
-  invention (cut it).
+- **No PRD, ever.** Not as a "draft for IT", not as an appendix. The PRD is
+  IT's artifact, produced under the Agentic Framework's ADR standards.
+- **Don't invent** commercialisation or Summit-fit. Source it or mark it `TBD`
+  and flag it — approval authority is not authorship of business facts.
+- **Don't promote stale.** If the harvest surfaces new settled decisions,
+  capture them before freezing.
+- **Approval is recorded, never implied.** A verbal or in-chat OK without the
+  block filled is not an approval — the handoff will refuse it.
