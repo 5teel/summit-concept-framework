@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "summit-concepts",
-      "source": ".",
+      "source": "./summit-concepts",
       "description": "Summit Concept Framework. Concept Writers add/build/submit concepts with the summit-concept skill; Strategists harvest/freeze/promote/hand off CDRs with summit-cdr. Every run publishes to the shared X:\\Labs Concept Dashboard."
     }
   ]

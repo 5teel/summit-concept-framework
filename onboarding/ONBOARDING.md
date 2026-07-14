@@ -74,7 +74,7 @@ ways:
 
 ## If you get stuck
 
-- **What the concept skill does** — [`skills/summit-concept/SKILL.md`](../skills/summit-concept/SKILL.md)
+- **What the concept skill does** — [`summit-concepts/skills/summit-concept/SKILL.md`](../summit-concepts/skills/summit-concept/SKILL.md)
 - **The whole pipeline** — [`PIPELINE.md`](../PIPELINE.md)
 - **Concept Dashboard** — `X:\Labs\index.html`
 

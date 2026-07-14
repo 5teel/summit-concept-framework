@@ -114,9 +114,13 @@ See `PIPELINE.md` for the full stage flow.
 ## Repo Layout
 
 ```
-summit-concept-framework/
-├── README.md                          ← you are here
-├── PIPELINE.md                        ← the concept → VI pipeline, stage by stage
+summit-concept-framework/              ← the Claude plugin MARKETPLACE (repo root)
+├── .claude-plugin/marketplace.json    ← lists the summit-concepts plugin
+├── summit-concepts/                   ← the PLUGIN (source "./summit-concepts")
+│   ├── .claude-plugin/plugin.json
+│   └── skills/
+│       ├── summit-concept/            ← CW: register + build & capture + submit (+ optional triage)
+│       └── summit-cdr/                ← ST: harvest → freeze → promote → handoff (one flow)
 ├── templates/
 │   ├── SUBMISSION_TEMPLATE.md         ← concept submission + optional triage verdict
 │   ├── CDR_TEMPLATE.md                ← Concept Decision Record
@@ -124,10 +128,12 @@ summit-concept-framework/
 │   ├── NOTES_TEMPLATE.md              ← scratch buffer
 │   └── PROMOTION_RECORD_TEMPLATE.html ← promotion record (rendered)
 ├── onboarding/                        ← one-click installer + quickstart for Concept Writers
-└── skills/                            ← Claude Code skills (install to ~/.claude/skills/)
-    ├── summit-concept/                ← CW: register + build & capture + submit (+ optional triage)
-    └── summit-cdr/                    ← ST: harvest → freeze → promote → handoff (one flow)
+├── README.md                          ← you are here
+└── PIPELINE.md                        ← the concept → VI pipeline, stage by stage
 ```
+
+The skills read their templates from `X:\Labs\summit-concept-framework\templates\`
+(the framework working copy on the share), so `templates/` stays at the repo root.
 
 Two skills, not five — `summit-concept` (once `summit-sketch`) folds in the old
 `-submit`, and `summit-cdr` (once `summit-concept`) folds in the old `-harvest` /
