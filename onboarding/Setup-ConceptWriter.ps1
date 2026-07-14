@@ -4,13 +4,13 @@
   Wires a PC so Claude (Cowork OR Code) can run the summit-concept / summit-cdr
   skills, which publish concepts to the shared X:\Labs dashboard.
 
-  The skills ship as a Claude PLUGIN from a marketplace at X:\Labs (the Summit
-  marketplace; the framework itself is the discrete subfolder
-  X:\Labs\summit-concept-framework). No git hosting. This script:
+  The skills ship as a Claude PLUGIN from a marketplace hosted on GitHub:
+      https://github.com/5teel/summit-concept-framework   (plugin: summit-concepts)
+  (Cowork requires a git URL - it won't take a local/UNC path.) This script:
 
     1) maps the DATA share to  X:  (persistent) - needed for the dashboard
-       write-back AND for the marketplace path;
-    2) for Claude CODE (if the `claude` CLI is present): registers the X:\Labs
+       write-back and for the templates the skills read from X:\Labs;
+    2) for Claude CODE (if the `claude` CLI is present): registers the GitHub
        marketplace and installs the `summit-concepts` plugin, and retires any old
        copy-installed skills so they don't duplicate the plugin;
     3) prints the two one-time steps for Claude COWORK (done in its Plugins panel).
@@ -34,21 +34,19 @@ function Resolve-Unc([string]$path){
   return $path
 }
 
+$MarketUrl   = "https://github.com/5teel/summit-concept-framework"   # the Summit marketplace (GitHub)
+$MarketOwner = "5teel/summit-concept-framework"                      # owner/repo form for the Cowork dialog
+
 $here = $PSScriptRoot; if(-not $here){ $here = Split-Path -Parent $MyInvocation.MyCommand.Path }
-$repo        = Split-Path -Parent $here   # the framework/plugin: ...\Labs\summit-concept-framework
-$marketplace = Split-Path -Parent $repo   # the marketplace root: ...\Labs
-if(-not (Test-Path (Join-Path $marketplace ".claude-plugin\marketplace.json"))){
-  throw "Marketplace manifest not found at $marketplace\.claude-plugin\. Run this from the summit-concept-framework\onboarding folder inside X:\Labs on the DATA share."
-}
-$marketplaceUnc = Resolve-Unc $marketplace
-$shareUnc       = ($marketplaceUnc -replace '^(\\\\[^\\]+\\[^\\]+).*','$1')
+$repo = Split-Path -Parent $here   # the framework working copy: ...\Labs\summit-concept-framework
+$shareUnc = ($( Resolve-Unc $repo ) -replace '^(\\\\[^\\]+\\[^\\]+).*','$1')   # \\server\DATA
 
 Say ""
 Say "  Summit Concept Writer setup (plugin model)" Cyan
-Say ("  marketplace : {0}" -f $marketplace) DarkGray
+Say ("  marketplace : {0}" -f $MarketUrl) DarkGray
 Say ""
 
-# 1) map the DATA share to X: (persistent) so X:\Labs resolves in every Claude session
+# 1) map the DATA share to X: (persistent) so X:\Labs (dashboard + templates) resolves in every Claude session
 $cur = Get-PSDrive X -ErrorAction SilentlyContinue
 if($cur -and $cur.DisplayRoot){
   if($cur.DisplayRoot -ieq $shareUnc){ Say ("  [ok] X: already maps to {0}" -f $shareUnc) Green }
@@ -58,13 +56,13 @@ if($cur -and $cur.DisplayRoot){
   catch { Say ("  [!] could not map X: to {0}: {1}" -f $shareUnc,$_.Exception.Message) Yellow }
 }
 
-# 2) Claude Code path: register the X:\Labs marketplace + install the plugin (if the CLI is here)
+# 2) Claude Code path: register the GitHub marketplace + install the plugin (if the CLI is here)
 $claude = Get-Command claude -ErrorAction SilentlyContinue
 if($claude){
   Say ""
-  Say "  Claude Code detected - installing the plugin..." White
-  try { & claude plugin marketplace add "$marketplace" 2>&1 | Out-Null; Say "  [ok] marketplace 'summit-insights' registered (X:\Labs)" Green }
-  catch { Say ("  [!] marketplace add failed: {0}" -f $_.Exception.Message) Yellow }
+  Say "  Claude Code detected - installing the plugin from GitHub..." White
+  try { & claude plugin marketplace add "$MarketUrl" 2>&1 | Out-Null; Say "  [ok] marketplace 'summit-insights' registered (GitHub)" Green }
+  catch { Say ("  [!] marketplace add failed (is git signed in to GitHub?): {0}" -f $_.Exception.Message) Yellow }
   try { & claude plugin install summit-concepts@summit-insights 2>&1 | Out-Null; Say "  [ok] plugin 'summit-concepts' installed (summit-concept + summit-cdr)" Green }
   catch { Say ("  [!] plugin install failed: {0}" -f $_.Exception.Message) Yellow }
   # retire any old COPY-installed skills so they don't duplicate the plugin
@@ -92,9 +90,9 @@ else { Say "  [!] X:\Labs not reachable yet - sign out/in (or reconnect the driv
 Say ""
 Say "  In Claude COWORK (desktop app), do this ONCE:" White
 Say "     1. Open the Plugins panel  ->  Add marketplace" Gray
-Say ("     2. Point it at:  {0}" -f $marketplace) Gray
-Say ("        (or the UNC path:  {0})" -f $marketplaceUnc) DarkGray
-Say "     3. Install the 'summit-concepts' plugin" Gray
+Say ("     2. Paste:  {0}" -f $MarketOwner) Gray
+Say ("        (or the full URL:  {0})" -f $MarketUrl) DarkGray
+Say "     3. Install the 'summit-concepts' plugin, then start a new chat" Gray
 Say ""
 Say "  Then, in Cowork or Code, any time:" White
 Say '     add an existing sketch:  summit-concept import "C:\path\to\your\project"' Gray

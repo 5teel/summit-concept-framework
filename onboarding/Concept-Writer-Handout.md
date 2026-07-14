@@ -10,7 +10,7 @@
    double-click **`Install-ReportWriter.bat`**.
    *(Maps `X:` and, for Claude Code, installs the plugin.)*
 2. **In Claude Cowork:** Plugins panel → **Add marketplace** →
-   `X:\Labs` → install **`summit-concepts`**.
+   `5teel/summit-concept-framework` → install **`summit-concepts`**.
    *(Start a new chat afterwards.)*
 
 That's it — you now have `summit-concept` in Claude.

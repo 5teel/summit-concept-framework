@@ -3,9 +3,9 @@
 Everything you need to add **concepts** from Claude — one-time setup, then two
 commands. (A concept is any idea → visual POC, up to the point you submit it.)
 
-The skills ship as a **Claude plugin** (`summit-concepts`) served from a marketplace
-on the shared **X:** drive — so there's nothing to copy around, and updates reach
-everyone from one place.
+The skills ship as a **Claude plugin** (`summit-concepts`) from a marketplace on
+GitHub (`5teel/summit-concept-framework`) — so there's nothing to copy around, and
+updates reach everyone from one place.
 
 > **Quickstart diagram:** open [`report-writer-quickstart.html`](report-writer-quickstart.html)
 > — the four steps, minimal fuss.
@@ -33,10 +33,10 @@ Cowork uses its own **Plugins** panel (it doesn't read Claude Code's skills), so
 the plugin there:
 
 1. Open the **Plugins** panel → **Add marketplace**.
-2. Point it at the Labs share:
-   `X:\Labs`
-   *(or the UNC path `\\HYP01.summit.corp\DATA\Labs`)*
-3. Install the **`summit-concepts`** plugin.
+2. Paste the marketplace repo:
+   `5teel/summit-concept-framework`
+   *(or the full URL `https://github.com/5teel/summit-concept-framework`)*
+3. Install the **`summit-concepts`** plugin, then start a new chat.
 
 That's the whole install. It gives you two skills: **`summit-concept`** (add / build /
 submit a concept) and **`summit-cdr`** (for Strategists — harvest CDRs → freeze →
@@ -87,8 +87,8 @@ ways:
   the plugin, or re-run `Install-ReportWriter.bat`.
 - **"X:\Labs not reachable"** — the drive map hasn't taken; **sign out and back in** (or
   reconnect the drive), then re-run the installer.
-- **Updating to the latest skill** — the marketplace lives on the share, so re-run
-  `Install-ReportWriter.bat` (Code) or `/plugin update summit-concepts` — no file copying.
+- **Updating to the latest skill** — run `/plugin update summit-concepts` (Cowork) or
+  re-run `Install-ReportWriter.bat` (Code). New versions come from the GitHub marketplace.
 - **Skills stored somewhere unusual** — the installer targets the standard locations;
   if yours differ, tell IT and we'll adjust.
 
@@ -96,11 +96,11 @@ ways:
 
 ## Why a plugin (not a copied file)?
 
-Claude Cowork only loads skills that arrive as an **installed plugin from a
-marketplace** — it doesn't read a hand-copied skills folder. Serving the framework as a
-marketplace **from the X: share** means one governed source of truth: install once,
-update centrally, and the exact same skill runs for every Concept Writer in both Cowork
-and Claude Code.
+Claude Cowork only loads skills that arrive as an **installed plugin from a git
+marketplace** — it doesn't read a hand-copied skills folder or a local path. Serving the
+framework as a marketplace **on GitHub** means one governed source of truth: install
+once, update centrally (push → `/plugin update`), and the exact same skill runs for every
+Concept Writer in both Cowork and Claude Code.
 
 ---
 
