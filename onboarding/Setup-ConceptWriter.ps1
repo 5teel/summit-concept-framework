@@ -39,7 +39,7 @@ $MarketOwner = "5teel/summit-concept-framework"                      # owner/rep
 
 $here = $PSScriptRoot; if(-not $here){ $here = Split-Path -Parent $MyInvocation.MyCommand.Path }
 $repo = Split-Path -Parent $here   # the framework working copy: ...\Labs\summit-concept-framework
-$shareUnc = ($( Resolve-Unc $repo ) -replace '^(\\\\[^\\]+\\[^\\]+).*','$1')   # \\server\DATA
+$shareUnc = ($( Resolve-Unc $repo ) -replace '^(\\\\[^\\]+\\[^\\]+).*','$1')   # the \\server\share root
 
 Say ""
 Say "  Summit Concept Writer setup (plugin model)" Cyan
