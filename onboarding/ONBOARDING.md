@@ -37,6 +37,10 @@ the plugin there:
    `5teel/summit-concept-framework`
    *(or the full URL `https://github.com/5teel/summit-concept-framework`)*
 3. Install the **`summit-concepts`** plugin, then start a new chat.
+4. **Connect the share:** in Cowork, use **Add folder** and pick **`X:\Labs`**.
+   Cowork runs in a sandbox, so this is how the skill reaches the dashboard to write
+   your concept. (If concepts aren't showing up, this is almost always the reason —
+   re-connect `X:\Labs`.)
 
 That's the whole install. It gives you two skills: **`summit-concept`** (add / build /
 submit a concept) and **`summit-cdr`** (for Strategists — harvest CDRs → freeze →
@@ -62,13 +66,13 @@ modifies the source.
 
 ## 3. See your concepts — the dashboard
 
-Every concept publishes to the shared **Concept Dashboard** at `X:\Labs`. Open it two
-ways:
+Every concept publishes to the shared **Concept Dashboard** at `X:\Labs`. **Open it by
+double-clicking `X:\Labs\Dashboard.bat`** — it opens in your browser, rebuilds itself on
+open/refresh (so concepts added from Cowork show up straight away), and saves renames /
+re-ranking automatically with no prompts.
 
-- **Double-click `X:\Labs\Dashboard.bat`** — opens in your browser; rename and
-  re-rank save automatically, no prompts.
-- Or double-click `X:\Labs\index.html` (you'll be asked once to connect the folder so
-  edits can save).
+*(Double-clicking the raw `X:\Labs\index.html` also works, but it only shows the last
+saved snapshot — use `Dashboard.bat` so you always see the latest.)*
 
 ---
 
@@ -85,6 +89,10 @@ ways:
   **Plugins** panel (step 1 above), then start a new Cowork chat.
 - **`summit-concept` doesn't appear in Claude Code** — restart Claude Code so it loads
   the plugin, or re-run `Install-ReportWriter.bat`.
+- **The skill runs in Cowork but can't write the concept** — Cowork can't see `X:\Labs`
+  until you connect it: **Add folder → `X:\Labs`** in Cowork, then re-run the command.
+- **Concept written but not on the dashboard** — open the dashboard with
+  **`Dashboard.bat`** (not the raw `index.html`); it rebuilds on open so new concepts appear.
 - **"X:\Labs not reachable"** — the drive map hasn't taken; **sign out and back in** (or
   reconnect the drive), then re-run the installer.
 - **Updating to the latest skill** — run `/plugin update summit-concepts` (Cowork) or

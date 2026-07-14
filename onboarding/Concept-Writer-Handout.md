@@ -12,6 +12,9 @@
 2. **In Claude Cowork:** Plugins panel → **Add marketplace** →
    `5teel/summit-concept-framework` → install **`summit-concepts`**.
    *(Start a new chat afterwards.)*
+3. **In Claude Cowork:** use **Add folder** and pick **`X:\Labs`** — Cowork is
+   sandboxed, so this is how the skill reaches the dashboard. *(If concepts don't show
+   up, re-connect `X:\Labs`.)*
 
 That's it — you now have `summit-concept` in Claude.
 
@@ -45,9 +48,10 @@ A quick completeness check, then it's ready for a Strategist. You're done.
 
 ## See it / manage it
 
-Open the **Concept Dashboard**: double-click **`X:\Labs\Dashboard.bat`** (or `X:\Labs\index.html`).
+Open the **Concept Dashboard**: double-click **`X:\Labs\Dashboard.bat`** — it rebuilds on
+open/refresh, so concepts added from Cowork appear straight away.
 
-- Your concept appears instantly with its stage and benefit.
+- Your concept appears with its stage and benefit.
 - **Rename** inline (hover a row → pencil). **Drag** to re-rank the queue.
 - Everything you and the team add shows up here — that's the point: shared visibility so
   duplicates and synergies surface early.
