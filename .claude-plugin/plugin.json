@@ -1,0 +1,9 @@
+{
+  "name": "summit-concepts",
+  "version": "1.0.0",
+  "description": "Add and manage Summit concepts from Claude. summit-concept: register, import, build and submit a concept; summit-cdr: harvest CDRs, freeze, promote and hand off. Every run publishes to the X:\\Labs Concept Dashboard.",
+  "author": {
+    "name": "Summit Insights"
+  },
+  "homepage": "https://summitinsights.com"
+}

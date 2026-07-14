@@ -1,21 +1,20 @@
 ---
 title: "Promotion: [Concept Name]"
 concept: "[concept-name]"
-status: "Ready for Approval"      # Draft | Ready for Approval | Approved | Rejected
+status: "Promoted"                # Draft | Promoted
 date: "YYYY-MM-DD"
+strategist: "[Strategist name]"
 concept_writer: "[Concept Writer name]"
-report_writer: "[Report Writer name]"
 tags: ["concept", "promotion"]
 frozen_cdrs: 0                    # count of Frozen CDRs in the manifest below
 cdr_freeze_ref: ""                # commit SHA or date the CDR set was frozen at
 poc_baseline: ""                  # repo / live POC link — the runnable reference
-# --- approval block: THE machine-readable source of truth for the whole promotion. ---
-# --- summit-concept-handoff refuses unless status is "Approved" AND all three filled. ---
-# --- Promotion authority sits with Concept Writers — the approving CW fills this.    ---
-# --- Always attributable: name, date, and a record reference, never a verbal OK.     ---
-approved_by: ""                   # the Concept Writer granting promotion
-approved_at: ""                   # YYYY-MM-DD
-approval_record: ""               # link/ref to approval evidence (thread, ticket, sign-off)
+# --- optional 'agreed' note (informational). Approval & prioritisation are ---
+# --- cultural — team consensus in meetings. summit-cdr does NOT gate handoff on this. ---
+# --- Fill it only if the team wants the go-ahead recorded; leave blank otherwise.    ---
+agreed_by: ""                     # who noted the team consensus (a Strategist)
+agreed_at: ""                     # YYYY-MM-DD
+agreed_context: ""                # optional: where it was agreed (meeting, thread)
 ---
 
 # Promotion: [Concept Name]
@@ -23,11 +22,11 @@ approval_record: ""               # link/ref to approval evidence (thread, ticke
 > The machine-readable promotion document. The HTML promotion record is
 > **rendered from this file** — presentation only, never the authority.
 > Frozen CDRs remain the source of truth for concept decisions; this document
-> carries the business case, the freeze manifest, and the approval.
+> carries the business case and the freeze manifest.
 
 ## Status
 
-Draft | **Ready for Approval** | Approved | Rejected
+Draft | **Promoted**
 
 ---
 
@@ -40,32 +39,32 @@ accepted SUBMISSION.md, updated with what the build proved.]
 
 ## 2. Business Case
 
-> Gathered from the Report Writer and product — never invented by the packager.
-> Approval authority does not extend to inventing business facts:
+> Gathered from the Concept Writer and product — never invented by the packager.
+> The packager does not invent business facts:
 > commercialisation and Summit-fit claims are sourced, or marked TBD and flagged.
 
 ### Value to Summit
 
-- **VAL-001**: [The value-add argument]
+[The value-add argument.]
 
 ### Who Uses It
 
-- **USR-001**: [Persona — job-to-be-done]
+[Persona — job-to-be-done.]
 
 ### Summit Fit
 
-- **FIT-001**: [Positioning vs the existing product & service range — sourced, not guessed]
+[Positioning vs the existing product & service range — sourced, not guessed.]
 
 ### Commercialisation
 
-- **COM-001**: [Must be sourced from product / commercial. If unavailable:
-  `TBD — pending product input` and flag it in §4.]
+[Must be sourced from product / commercial. If unavailable:
+`TBD — pending product input` and flag it in §4.]
 
 ---
 
 ## 3. Freeze Manifest
 
-> The immutable spec. `summit-concept-handoff` validates the actual `cdr/`
+> The immutable spec. `summit-cdr` validates the actual `cdr/`
 > directory against this list — drift refuses the handoff.
 
 | CDR | Title | Type |
@@ -79,17 +78,17 @@ never deleted).
 
 ## 4. Flagged Gaps
 
-> Anything marked TBD or unsourced above, listed plainly so the approving
-> Concept Writer sees exactly what they are approving around.
+> Anything marked TBD or unsourced above, listed plainly so the team sees
+> exactly what's still outstanding.
 
-- **FLG-001**: [e.g. "Commercialisation TBD — pending product input"]
+- [e.g. "Commercialisation TBD — pending product input"]
 
 ---
 
 ## 5. Downstream (outside this framework)
 
-On handoff, IT owns everything from here: the **PRD** (authored from the frozen
-CDR set, under IT's process and the Agentic Framework's ADR standards), the
+On handoff, the Agentic Engineers own everything from here: the **PRD** (authored from the frozen
+CDR set, under their process and the Agentic Framework's ADR standards), the
 ADRs, and the build. This promotion places no requirements on that process
 beyond the boundary rules: frozen CDRs win any conflict with derived artifacts,
 and frozen records are never edited.
@@ -98,7 +97,7 @@ and frozen records are never edited.
 
 ## 6. References
 
-- **REF-001**: Frozen CDR set: `cdr/`
-- **REF-002**: Accepted submission: `SUBMISSION.md`
-- **REF-003**: POC baseline (runnable reference): [link]
-- **REF-004**: Rendered approval package: `promotion/promotion-record.html`
+- Frozen CDR set: `cdr/`
+- Submission: `SUBMISSION.md`
+- POC baseline (runnable reference): [link]
+- Rendered promotion record: `promotion/promotion-record.html`

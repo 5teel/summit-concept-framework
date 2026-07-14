@@ -3,22 +3,23 @@ title: "Submission: [Concept Name]"
 concept: "[concept-name]"
 status: "Draft"                   # Draft | Submitted | Accepted | Returned | Rejected
 date: "YYYY-MM-DD"                # date submitted
-report_writer: "[Report Writer name]"
+concept_writer: "[Concept Writer name]"
 tags: ["concept", "submission"]
-# --- triage block: filled by the Concept Writer, never the submitter ---
-triaged_by: ""                    # Concept Writer name
+# --- triage block: filled by the Strategist, never the submitter ---
+triaged_by: ""                    # Strategist name
 triaged_at: ""                    # YYYY-MM-DD
-concept_writer: ""                # CW assigned to the concept if Accepted
+strategist: ""                    # Strategist assigned to the concept if Accepted
 ---
 
 # Submission: [Concept Name]
 
-> The entry gate to the concept pipeline. A Report Writer submits; a Concept
-> Writer triages. Nothing downstream (harvest, promotion, handoff) runs against
-> a concept that is not `Accepted`.
+> The concept's entry into the strategy stage. A Concept Writer submits; a
+> Strategist triages **only when a genuinely different person reviews** — triage is
+> optional and off by default. `summit-cdr` runs on a `Submitted` concept (or an
+> `Accepted` one, when triage is on).
 >
-> `summit-concept-submit` refuses to set `status: "Submitted"` while any
-> checklist item is unmet — gaps surface at the Report Writer's desk, not
+> `summit-concept` (submit) refuses to set `status: "Submitted"` while any
+> checklist item is unmet — gaps surface at the Concept Writer's desk, not
 > mid-pipeline.
 
 ## Status
@@ -75,7 +76,7 @@ aspirational.]
 
 ## 6. Completeness Checklist
 
-> All items must be checked before `summit-concept-submit` will package this.
+> All items must be checked before `summit-concept` (submit) will package this.
 
 - [ ] **CHK-001**: Problem articulated (§1 — one real paragraph, not a placeholder)
 - [ ] **CHK-002**: Outcome articulated (§2)
@@ -86,7 +87,7 @@ aspirational.]
 
 ---
 
-## 7. Triage Verdict (Concept Writer only)
+## 7. Triage Verdict (Strategist only — optional)
 
 | Verdict | Meaning |
 |---|---|

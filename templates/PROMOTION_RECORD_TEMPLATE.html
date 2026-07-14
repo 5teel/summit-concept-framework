@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--
   PROMOTION RECORD TEMPLATE — Summit Concept Framework
-  Filled by summit-concept-promote. Generated from the frozen CDR set + business case.
+  Filled by summit-cdr. Generated from the frozen CDR set + business case.
   Replace {{tokens}}. Repeat blocks marked <!- - repeat: ... - -> once per item.
 
   This document is PRESENTATION ONLY. It renders from PROMOTION.md — the
-  machine-readable source of truth for the business case and the approval block
-  (approved_by / approved_at / approval_record). Never hand-author content here.
+  machine-readable source of truth for the business case and the optional
+  "agreed" note (agreed_by / agreed_at). Never hand-author content here.
 -->
 <html lang="en">
 <head>
@@ -135,7 +135,7 @@
   </section>
 
   <section>
-    <h2><span class="num">6</span>Frozen CDR set — the spec handed to IT</h2>
+    <h2><span class="num">6</span>Frozen CDR set — the spec handed to the Agentic Engineers</h2>
     <!-- repeat per Frozen CDR -->
     <div class="cdr">
       <div class="id">{{cdr_id}}</div>
@@ -148,13 +148,13 @@
   </section>
 
   <section>
-    <h2><span class="num">7</span>Approval</h2>
+    <h2><span class="num">7</span>Agreed to proceed <small style="font-weight:400;color:var(--muted);">— informal, team consensus</small></h2>
     <div class="approval">
-      <div class="cell"><div class="k">Approved by</div><div class="v">{{approved_by}}</div></div>
-      <div class="cell"><div class="k">Approved</div><div class="v">{{approved_at}}</div></div>
-      <div class="cell"><div class="k">Record</div><div class="v">{{approval_record}}</div></div>
+      <div class="cell"><div class="k">Agreed by</div><div class="v">{{agreed_by}}</div></div>
+      <div class="cell"><div class="k">Agreed</div><div class="v">{{agreed_at}}</div></div>
+      <div class="cell"><div class="k">Context</div><div class="v">{{agreed_context}}</div></div>
     </div>
-    <!-- if pending: --><div class="flag">{{approval_flag}}</div>
+    <!-- optional; approval &amp; prioritisation are cultural, not a machine gate -->
   </section>
 
   <section>
@@ -167,9 +167,9 @@
   </section>
 
   <footer>
-    Concept by <b>Report Writers</b> &nbsp;·&nbsp; Promoted &amp; approved by <b>Concept Writers</b> &nbsp;·&nbsp; Built by <b>IT</b> (PRD &amp; development — Summit Agentic Framework)<br>
+    Concept by <b>Concept Writers</b> &nbsp;·&nbsp; Promoted by <b>Strategists</b> &nbsp;·&nbsp; Built by <b>Agentic Engineers</b> (PRD &amp; development — Summit Agentic Framework)<br>
     Rendered from PROMOTION.md + the frozen CDR set — single source of truth.<br>
-    Presentation only — the machine-readable approval lives in the PROMOTION.md frontmatter.
+    Presentation only — the machine-readable record lives in the PROMOTION.md frontmatter.
   </footer>
 
 </div>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concept Writer — Quickstart</title>
+<style>
+  :root{ --bg:#f5f6f9; --card:#fff; --ink:#161c28; --muted:#6a7280; --faint:#9aa3b4; --line:#e6e9f0; --accent:#5159c8; --accent-soft:#eef0fb; --ok:#2f9e57; }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Inter","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;}
+  .mono{font-family:"Cascadia Code",ui-monospace,Consolas,Menlo,monospace;}
+  .wrap{max-width:720px;margin:0 auto;padding:44px 28px 56px;}
+  h1{font-size:24px;margin:0 0 4px;letter-spacing:-.3px;}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 26px;}
+
+  .install{display:flex;align-items:center;gap:16px;background:var(--accent-soft);border:1px solid #dcdff6;border-radius:14px;padding:16px 18px;margin-bottom:30px;}
+  .install .n{flex:0 0 auto;width:30px;height:30px;border-radius:8px;background:var(--accent);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .install .t{font-size:14px;} .install .t b{font-weight:650;}
+  .install .t .file{font-weight:700;} .install .once{margin-left:auto;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
+
+  .steps{position:relative;margin:0 0 30px;}
+  .step{display:grid;grid-template-columns:34px 1fr;gap:16px;padding:0 0 22px;position:relative;}
+  .step:last-child{padding-bottom:0;}
+  .step .num{width:34px;height:34px;border-radius:50%;background:var(--card);border:2px solid var(--line);color:var(--ink);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;z-index:2;}
+  .step.done .num{background:var(--ok);border-color:var(--ok);color:#fff;}
+  .step::before{content:"";position:absolute;left:16px;top:34px;bottom:-2px;width:2px;background:var(--line);z-index:1;}
+  .step:last-child::before{display:none;}
+  .body .h{font-size:16px;font-weight:650;margin:5px 0 2px;}
+  .body .why{font-size:13px;color:var(--muted);margin:0 0 9px;}
+  .cmd{display:inline-flex;align-items:center;gap:8px;background:#0f1626;color:#e6ebf6;border-radius:9px;padding:9px 13px;font-size:12.5px;overflow-x:auto;max-width:100%;}
+  .cmd .p{color:#5fd0c2;user-select:none;}
+  .cmd + .cmd{margin-top:7px;}
+  .alt{font-size:12px;color:var(--faint);margin-top:7px;}
+
+  .links{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wrap:wrap;gap:10px 22px;}
+  .links a{color:var(--accent);text-decoration:none;font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;}
+  .links a:hover{text-decoration:underline;}
+  .links .lbl{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);width:100%;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Concept Writer — Quickstart</h1>
+  <p class="sub">One-time setup, then two commands to Claude (Cowork or Code).</p>
+
+  <div class="install">
+    <div class="n">0</div>
+    <div class="t"><b>One-time setup.</b> Double-click <span class="file mono">Install-ReportWriter.bat</span> — maps <b>X:</b> and, for <b>Claude Code</b>, installs the plugin.<br>
+      <b>In Claude Cowork:</b> Plugins panel → <b>Add marketplace</b> → <span class="mono">X:\Labs</span> → install <b>summit-concepts</b>.</div>
+    <div class="once">once</div>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="body">
+        <div class="h">Point Claude at your concept</div>
+        <div class="why">Registers it on the Concept Dashboard so the team can see it.</div>
+        <div class="cmd mono"><span class="p">&gt;</span> summit-concept import "C:\path\to\your\project"</div>
+        <div class="alt">New idea instead of an existing build? &nbsp;<span class="mono">summit-concept my-idea</span></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="body">
+        <div class="h">Build &amp; iterate</div>
+        <div class="why">Explore freely. Drop a one-line note when something feels decided.</div>
+        <div class="cmd mono"><span class="p">&gt;</span> (build your POC — the concept stays visible on the dashboard)</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">3</div>
+      <div class="body">
+        <div class="h">Submit when it's demonstrable</div>
+        <div class="why">A quick completeness check, then it's ready for a Strategist.</div>
+        <div class="cmd mono"><span class="p">&gt;</span> summit-concept submit</div>
+      </div>
+    </div>
+
+    <div class="step done">
+      <div class="num">&#10003;</div>
+      <div class="body">
+        <div class="h">Done</div>
+        <div class="why">It's on the Concept Dashboard. A Strategist takes it from here — you don't need to do anything else.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="links">
+    <span class="lbl">If you get stuck</span>
+    <a href="file:///X:/Labs/index.html">&#9638; Concept Dashboard</a>
+    <a href="ONBOARDING.md">&#128214; Full guide</a>
+    <a href="../skills/summit-concept/SKILL.md">&#128220; What the concept skill does</a>
+    <a href="../PIPELINE.md">&#128506; The whole pipeline</a>
+  </div>
+
+</div>
+</body>
+</html>

@@ -2,10 +2,10 @@
 title: "CDR-NNN: [Decision Title — short, present tense]"
 concept: "[concept-name]"
 type: "ux"                        # ux | scope | data | integration — drives PRD structure
-status: "Proposed"                # Proposed | Needs Review | Active | Frozen | Superseded
+status: "Needs Review"            # Needs Review | Active | Frozen | Superseded
 date: "YYYY-MM-DD"                # date the decision was taken (not recorded)
-authors: "[Concept Writer name]"  # CDRs are authored by Concept Writers only —
-report_writer: "[Report Writer]"  # the RW who built the POC and supplied the "why"
+authors: "[Strategist name]"      # CDRs are authored by Strategists only —
+concept_writer: "[Concept Writer]" # the CW who built the POC and supplied the "why"
 tags: ["concept", "decision"]
 supersedes: ""                    # CDR id this replaces, if any (e.g. "CDR-004")
 superseded_by: ""                 # filled in only when a later CDR overrides this one
@@ -15,7 +15,7 @@ superseded_by: ""                 # filled in only when a later CDR overrides th
 
 ## Status
 
-**Proposed** | Needs Review | Active | Frozen | Superseded
+**Needs Review** | Active | Frozen | Superseded
 
 > `Needs Review` = harvest-inferred, not yet human-confirmed.
 > `Active` = confirmed spec. `Frozen` = immutable, set by promotion.
@@ -33,8 +33,8 @@ Why did this decision come up? What was the user trying to do?]
 ## Decision
 
 > One statement per DEC item. Each is individually traceable — downstream
-> requirements (IT's PRD) reference `CDR-NNN:DEC-NNN`, so keep statements
-> atomic and present tense.
+> requirements (the Agentic Engineers' PRD) reference `CDR-NNN:DEC-NNN`, so keep
+> statements atomic and present tense.
 
 - **DEC-001**: [Primary decision statement — "Results render as a card grid."]
 - **DEC-002**: [Consequential decision bundled with it, if genuinely inseparable]
@@ -77,32 +77,16 @@ Why did this decision come up? What was the user trying to do?]
 
 ---
 
-## References
-
-- **REF-001**: [Related CDR — relative path]
-- **REF-002**: [Mockup, screenshot, Loom, sample output, or live POC screen]
-
----
-
 ## Handoff
 
-> The Enforcement analog for concept records: how this decision is consumed
-> downstream. Filled at harvest; checked at promotion and handoff.
+> How this decision is consumed downstream. Filled at harvest; checked at
+> promotion and handoff. (The downstream requirement area is derived from `type`:
+> ux → features & experience · scope → in/out of scope · data → data requirements
+> & constraints · integration → integration & assumptions — the Agentic Engineers'
+> PRD groups by these areas.)
 
-- **HND-001**: **Requirement area**: [Which downstream requirement area this feeds —
-  derived from `type`: ux → features & experience · scope → in/out of scope ·
-  data → data requirements & constraints · integration → integration & assumptions.
-  IT's PRD (authored outside this framework) groups by these areas.]
-- **HND-002**: **What IT must preserve**: [The invariant a rebuild cannot violate —
+- **HND-001**: **What the Agentic Engineers must preserve**: [The invariant a rebuild cannot violate —
   the thing that, if changed, means a different product was built]
-- **HND-003**: **What IT may vary**: [Explicitly negotiable — implementation latitude.
-  Stack, architecture, and internals are always IT's ADR call; list anything
+- **HND-002**: **What the Agentic Engineers may vary**: [Explicitly negotiable — implementation latitude.
+  Stack, architecture, and internals are always the Agentic Engineers' ADR call; list anything
   concept-adjacent that is also flexible]
-
----
-
-## Applies To
-
-| Concept | Downstream Requirement(s) | Status |
-|---|---|---|
-| [concept-name] | [optional back-reference, filled by IT once their PRD exists] | [Active / Frozen] |

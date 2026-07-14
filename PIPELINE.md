@@ -1,196 +1,97 @@
 # The Concept Pipeline
 
-> How a proof-of-concept becomes an approved handoff into VI development.
-> Six stages, four gates, one source of truth at every step.
+> How an idea becomes a handoff into VI development.
+> **Two stages, two skills, one hard stop** — built for throughput, not ceremony.
 >
-> Roles: **RW** = Report Writer · **CW** = Concept Writer · **IT** = VI development.
-> The role separation is the pipeline's quality mechanism: RWs explore freely,
-> CWs filter, formalise, and promote; IT builds. No stage accepts unfiltered
-> input from the stage before it.
+> Roles: **CW** = Concept Writer · **ST** = Strategist · **AE** = Agentic Engineer.
+> Concept Writers explore and build; Strategists formalise, freeze, and hand off;
+> Agentic Engineers build.
 >
 > **Scope boundary:** this framework ends at the handoff. The PRD is the
-> acknowledged next step, but it is **IT's process** — downstream of the
-> requirements and standards defined by the ADRs in the Summit Agentic
-> Framework. Nothing in this pipeline authors, templates, or gates a PRD.
+> acknowledged next step, but it is the **Agentic Engineers' process** — downstream
+> of the requirements and standards defined by the ADRs in the Summit Agentic
+> Framework. Nothing here authors, templates, or gates a PRD.
 
 ---
 
 ## Stage Map
 
-| Stage | Role | Skill | Input | Output | Gate |
-|---|---|---|---|---|---|
-| 1. Explore | RW | `summit-concept` | An idea | `concepts/<name>/` scaffold | — |
-| 2. Build & Capture | RW | (none — just build) | Scaffold | POC code + `NOTES.md` lines | — |
-| 3. Submit | RW → CW | `summit-concept-submit` | Demonstrable POC | `SUBMISSION.md` | **Triage — CW accepts / returns / rejects** |
-| 4. Harvest | CW | `summit-concept-harvest` | Accepted submission + diff | Curated `CDR-NNN` records | **CW confirms every CDR** |
-| 5. Promote | CW | `summit-concept-promote` | Active CDR set + business case | Frozen CDRs, `PROMOTION.md`, HTML record | **CW approval — recorded in the approval block** |
-| 6. Handoff | CW → IT | `summit-concept-handoff` | Approved promotion | VI project seed | **Handoff validation — refuses on conflict** |
+| Stage | Role | Skill | Input | Output |
+|---|---|---|---|---|
+| 1. **Concept** | CW | `summit-concept` | An idea (even barely developed) | Concept Dashboard entry + `concepts/<name>/` scaffold, POC, `NOTES.md`, `SUBMISSION.md` |
+| 2. **Strategy** | ST → AE | `summit-cdr` | A submitted Concept | Frozen CDRs, `PROMOTION.md`, HTML record, **the Concept handoff package** |
 
-After Stage 6, ownership is IT's: PRD, ADRs, and build under the Summit Agentic
-Framework.
+After Stage 2, ownership is the Agentic Engineers': PRD, ADRs, and build under the
+Summit Agentic Framework.
 
----
-
-## Stage 1 — Explore (RW)
-
-`summit-concept <name>` scaffolds the concept track in the POC workspace:
-
-```
-concepts/<name>/
-├── NOTES.md          ← scratch buffer
-├── cdr/
-│   ├── README.md     ← what a CDR is / isn't
-│   └── .harvest      ← harvest watermark
-└── promotion/        ← empty until Stage 5
-```
-
-Additive only. If the workspace already has other tracked work, nothing else is touched.
+The two skills replace the earlier five-skill chain. `summit-concept` (once
+`summit-sketch`) folds in the old submit step; `summit-cdr` (once `summit-concept`)
+folds in the old harvest + promote + handoff steps. Fewer commands, same durable
+record set.
 
 ---
 
-## Stage 2 — Build & Capture (RW)
+## Stage 1 — Concept (CW · `summit-concept`)
 
-No skill. Build the POC however is fastest. The only discipline asked of the
-Report Writer is the **one-liner habit**: when a fork in the road gets chosen,
-drop a line in `NOTES.md`. Optional tags:
+One skill, run in three modes over a Concept's life:
 
-- `!` feels decided — harvest prioritises
-- `?` open question — harvest ignores until resolved
-- (no tag) observation — harvest weighs as context
+1. **Register** — `summit-concept <name>` scaffolds `concepts/<name>/` (`NOTES.md`,
+   `cdr/`, `promotion/`) **and writes the first Concept Dashboard entry**. Do this
+   early — even for a barely-developed idea. The dashboard's value is coverage: when
+   every concept is visible, reviewers can spot **patterns, synergies and duplication
+   across concepts**, and merge or broaden several thin ones into a single stronger
+   concept *before* build effort is spent. On the dashboard this is `stage: "concept"`.
+2. **Build & Capture** — build the POC (code is throwaway); drop `NOTES.md`
+   one-liners at each fork (`!` decided · `?` open). No ceremony. `stage: "explore"`.
+3. **Submit** — a fast completeness self-check (problem, runnable baseline,
+   evidence, decision trail, declared gaps) **before** packaging `SUBMISSION.md`,
+   so gaps surface to the Concept Writer, not mid-pipeline. `stage: "submit"`.
 
-Nothing in NOTES is durable. If it matters it becomes a CDR at the next harvest.
-
----
-
-## Stage 3 — Submit (gate: Concept Writer triage)
-
-**This is the pipeline's quality filter.** Report Writers do not put concepts
-into the pipeline — they submit them, and a Concept Writer decides what enters.
-
-`summit-concept-submit` (run by the RW) validates the completeness checklist
-**before** packaging — an incomplete submission is stopped at the Report
-Writer's desk, not discovered mid-pipeline:
-
-- **Problem & outcome** articulated — one paragraph each
-- **Runnable POC baseline** — a link, and it must actually run
-- **Validation evidence** — demo feedback, usage observation, anything real
-- **Decision trail** — `NOTES.md` has capture (an empty buffer after weeks of
-  building means the trail is unrecoverable)
-- **Known gaps declared** — declared incompleteness is triage information;
-  *undeclared* incompleteness is a Return
-
-It writes `concepts/<name>/SUBMISSION.md` with checklist state and
-`status: "Submitted"`.
-
-**Triage (CW):** the Concept Writer reviews and sets the verdict in the
-SUBMISSION frontmatter:
-
-| Verdict | Meaning | Effect |
-|---|---|---|
-| `Accepted` | Complete enough to formalise | Harvest may run; CW assigned |
-| `Returned` | Named gaps — fixable | Back to RW with a gap list; resubmit when closed |
-| `Rejected` | Not viable as a concept | Track closes; rationale recorded |
-
-**No skill downstream of this gate runs against a concept that is not
-`Accepted`.** Harvest checks and refuses.
+**Optional triage.** When the Concept Writer and Strategist are the same person, a
+submitted concept goes straight to the strategy stage — self-review adds nothing.
+Turn triage *on* only when a genuinely different person reviews first; then a
+Strategist records `Accepted` / `Returned` / `Rejected` in the SUBMISSION frontmatter.
 
 ---
 
-## Stage 4 — Harvest (gate: Concept Writer curation)
+## Stage 2 — Strategy (ST → AE · `summit-cdr`)
 
-`summit-concept-harvest` (run by the **CW**) diffs the workspace since the last
-harvest watermark, reads NOTES, and proposes candidate CDRs. Every candidate
-must pass three tests:
+One flow that turns a submitted Concept into a frozen, handoff-ready spec — harvest,
+freeze, promote, hand off — with **one hard stop**:
 
-1. **Settled** — stabilised across iterations, not still churning.
-2. **Concept-level** — user-visible choice, not an implementation detail.
-3. **Load-bearing** — *would IT build a different product without knowing this?*
+- **A. Harvest** — diff since the last watermark; propose CDRs (settled,
+  concept-level, load-bearing); the Strategist confirms/edits/discards each; write
+  the confirmed set. Reversals supersede, never edit in place.
+- **B. Freeze — THE HARD STOP.** Explicit confirmation before flipping `Active` CDRs
+  to `Frozen`. Freezing is irreversible and the Agentic Engineers build on it; a spec
+  that changes after they start is the costliest slowdown there is.
+- **C. Promote** — gather the (sourced) business case; write `PROMOTION.md`
+  (freeze manifest + flagged gaps, `status: "Promoted"`) and render the HTML record.
+- **D. Handoff** — validate (frozen set matches manifest, no `Needs Review`, no
+  PRD), then emit **the Concept handoff package** (`PROJECT.seed.md` /
+  `CONTEXT.seed.md` + frozen CDR copy + manifest) into `promotion/handoff/`.
 
-The **Concept Writer** confirms / edits / discards each proposal — consulting
-the Report Writer for the "why" behind decisions the evidence doesn't explain.
-Nothing is written unconfirmed. Confirmed records get sequential IDs and typed
-classification (`ux | scope | data | integration`) — the type tells IT which
-requirement area each record feeds downstream.
-
-Decisions that reverse an earlier CDR **supersede** it — the old record is never
-edited in place. The supersession trail is the reasoning history IT needs at rebuild.
-
----
-
-## Stage 5 — Promote (gate: Concept Writer approval)
-
-`summit-concept-promote` (run by the **CW**) runs the promotion gate:
-
-1. **Final harvest** — never promote a stale set.
-2. **Freeze** — every `Active` CDR flips to `Frozen`; the set is now immutable.
-3. **Business case** — gathered from the RW and product; commercialisation
-   claims must be **sourced** from product / commercial or marked `TBD` and
-   flagged. Promotion authority does not extend to inventing business facts.
-4. **`PROMOTION.md`** — the machine-readable promotion document: business case,
-   freeze manifest, flagged gaps, and the **approval block**. The HTML record
-   renders from it — presentation only.
-5. **Approve.** Promotion authority sits with **Concept Writers**. The CW fills
-   the approval block (`approved_by`, `approved_at`, `approval_record`, status →
-   `"Approved"`) — the decision is always attributable and machine-verifiable.
-   A CW may equally hold a promotion at `Ready for Approval` for another CW or
-   for product / leadership input on commercially significant concepts — but
-   the framework does not require it.
-
-**No PRD is produced at this stage — or any stage.** The PRD is IT's downstream
-process.
-
----
-
-## Stage 6 — Handoff (gate: validation)
-
-`summit-concept-handoff` (run by the **CW**) runs only when:
-
-- `PROMOTION.md` frontmatter `status: "Approved"` **and** `approved_by` +
-  `approved_at` + `approval_record` are all filled. Missing any → refuse.
-- The frozen CDR set matches the freeze manifest. Drift → refuse.
-
-It then produces the **VI project seed** — pre-filled starters for the Agentic
-Framework's project-context files:
-
-| Source | Seeds |
-|---|---|
-| PROMOTION.md concept summary | `PROJECT.md` → Identity block |
-| Frozen CDR `HND-002` invariants | `PROJECT.md` → Non-Negotiable Rules |
-| Frozen CDR `DEC-*` statements by type | `CONTEXT.md` → Active Work (raw material for IT's PRD) |
-| Frozen `integration` CDRs | `CONTEXT.md` → assumptions to validate first |
-| POC baseline + `EVD-*` evidence | `CONTEXT.md` → Quality Status (acceptance reference) |
-
-**Then IT takes over — outside this framework.** IT authors the **PRD** from
-the frozen CDR set under its own process, downstream of the requirements and
-standards defined by the Agentic Framework's ADRs. The concept framework's only
-claims on that process are the boundary rules below.
-
-What the handoff **never** does:
-
-- Never chooses architecture, framework, or stack.
-- Never fills approval fields itself.
-- Never rewrites a frozen CDR.
-- Never authors or packages a PRD.
+**Approval and prioritisation are not a machine gate** — the team decides what moves
+forward and in what order informally, by consensus in meetings. Then the Agentic
+Engineers take over — outside this framework: they author the PRD from the frozen CDR
+set under their own process, downstream of the Agentic Framework's ADRs. What the
+strategy stage **never** does: choose architecture/stack, rewrite a frozen CDR, or
+author/package a PRD.
 
 ---
 
 ## Precedence & Authority (locked)
 
-1. The gate into the pipeline is **Submission triage** — Report Writers submit;
-   Concept Writers admit. Nothing bypasses it.
-2. The gate out is **promotion approval** — authority sits with **Concept
-   Writers**, recorded machine-readably in `PROMOTION.md`. One gate, one name.
-3. **Frozen CDRs win** over anything derived from them — IT's PRD, backlog,
-   or any other downstream artifact. `PROMOTION.md` wins over the HTML record
-   (presentation only).
-4. **Approval is machine-readable** — `PROMOTION.md` frontmatter, not the HTML.
-5. **The PRD is outside the framework.** IT owns it, downstream of the Agentic
-   Framework's ADRs. This framework delivers the frozen CDR set the PRD derives
-   from — nothing more.
-6. **Additive only** — the concept track never edits files owned by another
+1. **One stop, not many gates.** The only mandatory confirmation is the irreversible
+   **freeze**. Approval and prioritisation are cultural — decided by team consensus,
+   not enforced by the tooling. Everything else runs straight through.
+2. **Capture concepts early.** A concept entry is cheap; register ideas before
+   they're "worth" formalising, so cross-concept synergies surface on the dashboard.
+3. **Frozen CDRs win** over anything derived from them — the PRD, backlog, or any
+   downstream artifact. `PROMOTION.md` wins over the HTML record (presentation only).
+4. **The PRD is outside the framework.** The Agentic Engineers own it, downstream of
+   the Agentic Framework's ADRs. This framework delivers the frozen CDR set it derives from.
+5. **Additive only** — the concept track never edits files owned by another
    framework or project. New files only.
-7. **Role separation is enforced by the skills**: submit refuses an incomplete
-   checklist; harvest refuses an un-triaged concept; handoff refuses an
-   unapproved promotion. A skill that can't verify its gate, refuses.
-8. `summit-concept-promote` is permanently distinct from any other "promote" in
-   Summit tooling — never merged, never aliased.
+6. **Optional triage is the one conditional check** — on only for genuine
+   second-person review; off by default for speed.

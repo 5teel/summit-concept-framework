@@ -1,0 +1,14 @@
+{
+  "name": "summit-insights",
+  "description": "Summit Insights internal Claude tools. The Summit Concept Framework: add concepts and manage them through to handoff, all published to the shared X:\\Labs Concept Dashboard.",
+  "owner": {
+    "name": "Summit Insights"
+  },
+  "plugins": [
+    {
+      "name": "summit-concepts",
+      "source": ".",
+      "description": "Summit Concept Framework. Concept Writers add/build/submit concepts with the summit-concept skill; Strategists harvest/freeze/promote/hand off CDRs with summit-cdr. Every run publishes to the shared X:\\Labs Concept Dashboard."
+    }
+  ]
+}
