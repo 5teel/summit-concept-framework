@@ -81,7 +81,7 @@ if(-not (Test-Path $ctxReadme)){
     "Holds notes, confirmed measure mappings, decisions, reference material and",
     "reusable patterns that are NOT yet formalized into a skill for ongoing use.",
     "When a project's context matures or recurs, promote it into a packaged skill",
-    "in the summit-skills marketplace. Finished report JSON goes in ..\Reports\<project>\."
+    "in the summit-concepts plugin. Finished report JSON goes in ..\Reports\<project>\."
   ) } catch {}
 }
 if(Test-Path $ws){ Say ("  [ok] local workspace ready: {0}" -f $ws) Green }
