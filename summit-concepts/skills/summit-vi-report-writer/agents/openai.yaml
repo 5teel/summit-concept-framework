@@ -1,0 +1,4 @@
+interface:
+  display_name: "Summit VI Report Writer"
+  short_description: "Plan and build legacy VI reports in plain English"
+  default_prompt: "Use $summit-vi-report-writer to clarify this report in plain English, request examples or sketch it when useful, show me the report plan, wait for me to say execute, then build and validate a separate legacy VI JSON candidate."

@@ -1,0 +1,8 @@
+# Local-only staff roster — real employee names must never ship in the marketplace repo
+summit-concepts/references/summit-team.md
+**/references/summit-team.md
+
+# Client measure packs are Summit-internal client data — never publish pack data to the marketplace repo
+summit-concepts/references/clients/
+**/references/clients/
+client-packs/

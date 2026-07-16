@@ -1,0 +1,5 @@
+# Freeze line endings for the sealed VI skill so its byte-exact integrity manifests
+# (checksums.sha256 / release-manifest.json) stay valid on any checkout — no LF<->CRLF
+# conversion. Scoped from the framework root so it does not add a file inside the skill
+# (which the portability verifier's strict file inventory would reject).
+summit-concepts/skills/summit-vi-report-writer/** -text

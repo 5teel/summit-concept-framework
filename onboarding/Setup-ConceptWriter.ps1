@@ -1,19 +1,22 @@
 <#
   Summit - Concept Writer one-time setup (plugin model)
   =====================================================
-  Wires a PC so Claude (Cowork OR Code) can run the summit-concept / summit-cdr
-  skills, which publish concepts to the shared X:\Labs dashboard.
+  Wires a PC so Claude (Cowork OR Code) can run the Summit concept + VI report
+  writing skills. Concepts publish to the shared X:\Labs dashboard; VI reports
+  read central client measure packs from the X:\Labs share and write outputs to
+  the writer's LOCAL Documents\Summit workspace (client data stays central).
 
-  The skills ship as a Claude PLUGIN from a marketplace hosted on GitHub:
+  Skills ship as ONE Claude PLUGIN from a single GitHub marketplace:
       https://github.com/5teel/summit-concept-framework   (plugin: summit-concepts)
   (Cowork requires a git URL - it won't take a local/UNC path.) This script:
 
-    1) maps the DATA share to  X:  (persistent) - needed for the dashboard
-       write-back and for the templates the skills read from X:\Labs;
-    2) for Claude CODE (if the `claude` CLI is present): registers the GitHub
-       marketplace and installs the `summit-concepts` plugin, and retires any old
-       copy-installed skills so they don't duplicate the plugin;
-    3) prints the two one-time steps for Claude COWORK (done in its Plugins panel).
+    1)  maps the DATA share to  X:  (persistent) - dashboard write-back, templates,
+        and the central client measure packs the VI skill reads from X:\Labs;
+    1b) scaffolds the local Documents\Summit workspace (report outputs + assets);
+    2)  for Claude CODE (if the `claude` CLI is present): registers the GitHub
+        marketplace and installs summit-concepts, and retires any old
+        copy-installed skills so they don't duplicate the plugin;
+    3)  prints the one-time steps for Claude COWORK (Plugins panel + Add folder x2).
 
   Re-run any time to refresh. ASCII only (Windows PowerShell 5.1 reads no-BOM
   UTF-8 as ANSI; non-ASCII punctuation in string literals breaks parsing).
@@ -34,7 +37,7 @@ function Resolve-Unc([string]$path){
   return $path
 }
 
-$MarketUrl   = "https://github.com/5teel/summit-concept-framework"   # the Summit marketplace (GitHub)
+$MarketUrl   = "https://github.com/5teel/summit-concept-framework"   # concept marketplace (GitHub)
 $MarketOwner = "5teel/summit-concept-framework"                      # owner/repo form for the Cowork dialog
 
 $here = $PSScriptRoot; if(-not $here){ $here = Split-Path -Parent $MyInvocation.MyCommand.Path }
@@ -56,6 +59,34 @@ if($cur -and $cur.DisplayRoot){
   catch { Say ("  [!] could not map X: to {0}: {1}" -f $shareUnc,$_.Exception.Message) Yellow }
 }
 
+# 1b) scaffold the per-writer LOCAL workspace (Documents\Summit) - report outputs + personal assets.
+#     Client data (measure packs) stays CENTRAL on X:\Labs\client-packs - never copied here.
+$ws = Join-Path ([Environment]::GetFolderPath('MyDocuments')) "Summit"
+foreach($d in @("Projects","Templates","Skills","VI Report Writing\Context","VI Report Writing\Reports")){
+  $p = Join-Path $ws $d
+  if(-not (Test-Path $p)){ try { New-Item -ItemType Directory -Path $p -Force | Out-Null } catch {} }
+}
+$skReadme = Join-Path $ws "Skills\README.txt"
+if(-not (Test-Path $skReadme)){
+  try { Set-Content -Path $skReadme -Encoding ASCII -Value @(
+    "Personal skill drafts / reference only.",
+    "Cowork loads skills from MARKETPLACES (Plugins panel), NOT from this folder.",
+    "Dropping a skill here does NOT make it available in Cowork."
+  ) } catch {}
+}
+$ctxReadme = Join-Path $ws "VI Report Writing\Context\README.txt"
+if(-not (Test-Path $ctxReadme)){
+  try { Set-Content -Path $ctxReadme -Encoding ASCII -Value @(
+    "Interim report-writing context, one folder per project: Context\<project>\",
+    "Holds notes, confirmed measure mappings, decisions, reference material and",
+    "reusable patterns that are NOT yet formalized into a skill for ongoing use.",
+    "When a project's context matures or recurs, promote it into a packaged skill",
+    "in the summit-skills marketplace. Finished report JSON goes in ..\Reports\<project>\."
+  ) } catch {}
+}
+if(Test-Path $ws){ Say ("  [ok] local workspace ready: {0}" -f $ws) Green }
+else { Say "  [!] could not create the Documents\Summit workspace" Yellow }
+
 # 2) Claude Code path: register the GitHub marketplace + install the plugin (if the CLI is here)
 $claude = Get-Command claude -ErrorAction SilentlyContinue
 if($claude){
@@ -63,7 +94,7 @@ if($claude){
   Say "  Claude Code detected - installing the plugin from GitHub..." White
   try { & claude plugin marketplace add "$MarketUrl" 2>&1 | Out-Null; Say "  [ok] marketplace 'summit-insights' registered (GitHub)" Green }
   catch { Say ("  [!] marketplace add failed (is git signed in to GitHub?): {0}" -f $_.Exception.Message) Yellow }
-  try { & claude plugin install summit-concepts@summit-insights 2>&1 | Out-Null; Say "  [ok] plugin 'summit-concepts' installed (summit-concept + summit-cdr)" Green }
+  try { & claude plugin install summit-concepts@summit-insights 2>&1 | Out-Null; Say "  [ok] plugin 'summit-concepts' installed (summit-new-canvas + summit-concept + summit-cdr + summit-vi-report-writer)" Green }
   catch { Say ("  [!] plugin install failed: {0}" -f $_.Exception.Message) Yellow }
   # retire any old COPY-installed skills so they don't duplicate the plugin
   $sk = Join-Path $env:USERPROFILE ".claude\skills"
@@ -89,15 +120,19 @@ else { Say "  [!] X:\Labs not reachable yet - sign out/in (or reconnect the driv
 # 4) Cowork steps + how to use it
 Say ""
 Say "  In Claude COWORK (desktop app), do this ONCE:" White
-Say "     1. Open the Plugins panel  ->  Add marketplace" Gray
-Say ("     2. Paste:  {0}" -f $MarketOwner) Gray
-Say ("        (or the full URL:  {0})" -f $MarketUrl) DarkGray
-Say "     3. Install the 'summit-concepts' plugin, then start a new chat" Gray
+Say "     1. Plugins panel -> Add marketplace, then install the plugin:" Gray
+Say ("        - {0}   -> install 'summit-concepts'" -f $MarketOwner) Gray
+Say "     2. Connect BOTH folders (skills read data + write outputs):" Gray
+Say "        - Add folder -> X:\Labs                        (client packs + dashboard; read)" Gray
+Say ("        - Add folder -> {0}   (your report outputs; read/write)" -f $ws) Gray
+Say "     3. Start a new chat" Gray
 Say ""
 Say "  Then, in Cowork or Code, any time:" White
+Say '     sketch a raw idea:       "sketch this" / "new canvas" (summit-new-canvas)' Gray
 Say '     add an existing sketch:  summit-concept import "C:\path\to\your\project"' Gray
 Say "     or start a new idea:     summit-concept my-idea" Gray
 Say "     submit when ready:       summit-concept submit" Gray
+Say "     build a VI report:       ask Claude to build a VI report" Gray
 Say ""
 Say ("  Quickstart:  {0}\report-writer-quickstart.html" -f $here) DarkGray
 Say ("  Full guide:  {0}\ONBOARDING.md" -f $here) DarkGray

@@ -1,6 +1,6 @@
 # Concept Writer Onboarding
 
-Everything you need to add **concepts** from Claude — one-time setup, then two
+Everything you need to add **concepts** from Claude — one-time setup, then a couple of
 commands. (A concept is any idea → visual POC, up to the point you submit it.)
 
 The skills ship as a **Claude plugin** (`summit-concepts`) from a marketplace on
@@ -42,16 +42,18 @@ the plugin there:
    your concept. (If concepts aren't showing up, this is almost always the reason —
    re-connect `X:\Labs`.)
 
-That's the whole install. It gives you two skills: **`summit-concept`** (add / build /
-submit a concept) and **`summit-cdr`** (for Strategists — harvest CDRs → freeze →
-promote → hand off).
+That's the whole install. It gives you the plugin's skills: **`summit-new-canvas`**
+(sketch a raw idea into a designed HTML canvas), **`summit-concept`** (add / build /
+submit a concept), **`summit-cdr`** (for Strategists — harvest CDRs → freeze → promote →
+hand off), and **`summit-vi-report-writer`** (build & validate VI report JSON).
 
 ---
 
-## 2. Use it (two commands to Claude)
+## 2. Use it
 
 | Step | Say to Claude | Why |
 |---|---|---|
+| **0. Sketch a raw idea** | `sketch this` / `new canvas` | Fleshes a half-formed idea into a designed HTML canvas, grounded in Summit's business, data and asset shelf (`summit-new-canvas`). Optional — skip to step 1 if you've already built something |
 | **1. Add your concept** | `summit-concept import "C:\path\to\your\project"` <br>*(or `summit-concept my-idea` for a brand-new idea)* | Reads the project and registers it on the Concept Dashboard so the team can see it |
 | **2. Build & iterate** | just keep building your POC | Explore freely; it stays visible |
 | **3. Submit** | `summit-concept submit` | A quick completeness check, then it's ready for a Strategist |
