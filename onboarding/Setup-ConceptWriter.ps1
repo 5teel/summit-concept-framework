@@ -14,9 +14,8 @@
         and the central client measure packs the VI skill reads from X:\Labs;
     1b) scaffolds the local Documents\Summit workspace (report outputs + assets);
     2)  for Claude CODE (if the `claude` CLI is present): registers the GitHub
-        marketplace, REFRESHES it, installs summit-concepts, UPDATES it to the
-        latest published version, and retires any old copy-installed skills so
-        they don't duplicate the plugin;
+        marketplace, REFRESHES it, installs summit-concepts, and UPDATES it to the
+        latest published version;
     3)  prints the one-time steps for Claude COWORK (Plugins panel + Add folder x2).
 
   Re-run any time to refresh - the marketplace-update + plugin-update steps in (2)
@@ -110,17 +109,6 @@ if($claude){
   # pull any newer version the refresh above just made visible.
   try { & claude plugin update summit-concepts@summit-insights 2>&1 | Out-Null; Say "  [ok] plugin 'summit-concepts' updated to the latest version" Green }
   catch { Say ("  [!] plugin update failed: {0}" -f $_.Exception.Message) Yellow }
-  # retire any old COPY-installed skills so they don't duplicate the plugin
-  $sk = Join-Path $env:USERPROFILE ".claude\skills"
-  $old = @("summit-concept","summit-cdr","summit-sketch","summit-concept-submit","summit-concept-harvest","summit-concept-promote","summit-concept-handoff","summit-concept-graduate")
-  foreach($n in $old){
-    $p = Join-Path $sk $n
-    if(Test-Path $p){
-      try { & icacls $p /reset /T /C /Q | Out-Null } catch {}
-      try { Get-ChildItem $p -Recurse -File -Force | ForEach-Object { try{ $_.IsReadOnly=$false }catch{} } } catch {}
-      try { Remove-Item $p -Recurse -Force; Say ("  [ok] retired old copied skill: {0}" -f $n) DarkGray } catch {}
-    }
-  }
 } else {
   Say ""
   Say "  (Claude Code CLI not found - skipping the Code install; use the Cowork steps below.)" DarkGray

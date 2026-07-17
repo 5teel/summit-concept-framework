@@ -145,8 +145,8 @@ summit-concept-framework/              ← the Claude plugin MARKETPLACE (repo r
 The skills read their templates from `X:\Labs\summit-concept-framework\templates\`
 (the framework working copy on the share), so `templates/` stays at the repo root.
 
-**One plugin, four skills.** The pipeline itself is two — `summit-concept` folds in the
-old `-submit`, and `summit-cdr` folds in the old `-harvest` / `-promote` / `-handoff`.
+**One plugin, four skills.** The pipeline itself is two — `summit-concept` (register,
+capture, submit) and `summit-cdr` (harvest, freeze, promote, hand off).
 `summit-new-canvas` sits *upstream* (sketching an idea before it is registered), and
 `summit-vi-report-writer` ships alongside as the VI report tool rather than as a pipeline
 stage. The only mandatory confirmation is the freeze.

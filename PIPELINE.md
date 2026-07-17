@@ -25,9 +25,9 @@
 After Stage 2, ownership is the Agentic Engineers': PRD, ADRs, and build under the
 Summit Agentic Framework.
 
-The two pipeline skills replace the earlier five-skill chain: `summit-concept` folds in
-the old submit step, and `summit-cdr` folds in the old harvest + promote + handoff steps.
-Fewer commands, same durable record set. `summit-new-canvas` is optional and sits *before*
+Two skills carry the pipeline: `summit-concept` registers, captures and submits;
+`summit-cdr` harvests, freezes, promotes and hands off. Few commands, one durable record
+set. `summit-new-canvas` is optional and sits *before*
 Stage 1 — sketch first when an idea is still half-formed, or go straight to registering it.
 (`summit-vi-report-writer` also ships in the plugin, but it builds VI reports rather than
 moving a concept through this pipeline.)

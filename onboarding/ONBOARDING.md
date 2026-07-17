@@ -107,9 +107,6 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
   reconnect the drive), then re-run the installer.
 - **The VI report skill can't write its output** — your local workspace isn't connected:
   **Add folder → the workspace path the installer printed**, then re-run the command.
-- **Errors about a missing `summit-skills` marketplace** — that's a legacy setup. Run
-  `/plugin uninstall summit-skills` and remove the `5teel/summit-skills` marketplace from
-  the Plugins panel; the VI report skill now ships inside `summit-concepts`.
 - **Updating to the latest skill — or a skill is missing entirely** — refresh the
   marketplace **first**, then update the plugin. The order matters:
 
