@@ -36,11 +36,19 @@ the plugin there:
 2. Paste the marketplace repo:
    `5teel/summit-concept-framework`
    *(or the full URL `https://github.com/5teel/summit-concept-framework`)*
-3. Install the **`summit-concepts`** plugin, then start a new chat.
-4. **Connect the share:** in Cowork, use **Add folder** and pick **`X:\Labs`**.
-   Cowork runs in a sandbox, so this is how the skill reaches the dashboard to write
-   your concept. (If concepts aren't showing up, this is almost always the reason —
-   re-connect `X:\Labs`.)
+3. Install the **`summit-concepts`** plugin.
+4. **Connect BOTH folders.** Cowork runs in a sandbox, so this is the only way the skills
+   reach your data:
+   - **Add folder → `X:\Labs`** — the dashboard, templates, and client measure packs (read).
+   - **Add folder → your local workspace** — use the **exact path the installer printed**
+     (the `local workspace ready: ...` line). It is a `Summit` folder under *your* Documents,
+     so the path differs from PC to PC — if your Documents are OneDrive-redirected it looks
+     like `C:\Users\<you>\OneDrive - Summit Insights Pty Ltd\Documents\Summit`. Your report
+     outputs are written here (read/write).
+5. **Start a new chat.**
+
+(If concepts aren't showing up on the dashboard, a missing `X:\Labs` connection is almost
+always the reason — re-connect it.)
 
 That's the whole install. It gives you the plugin's skills: **`summit-new-canvas`**
 (sketch a raw idea into a designed HTML canvas), **`summit-concept`** (add / build /
@@ -97,6 +105,11 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
   **`Dashboard.bat`** (not the raw `index.html`); it rebuilds on open so new concepts appear.
 - **"X:\Labs not reachable"** — the drive map hasn't taken; **sign out and back in** (or
   reconnect the drive), then re-run the installer.
+- **The VI report skill can't write its output** — your local workspace isn't connected:
+  **Add folder → the workspace path the installer printed**, then re-run the command.
+- **Errors about a missing `summit-skills` marketplace** — that's a legacy setup. Run
+  `/plugin uninstall summit-skills` and remove the `5teel/summit-skills` marketplace from
+  the Plugins panel; the VI report skill now ships inside `summit-concepts`.
 - **Updating to the latest skill — or a skill is missing entirely** — refresh the
   marketplace **first**, then update the plugin. The order matters:
 
