@@ -97,8 +97,23 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
   **`Dashboard.bat`** (not the raw `index.html`); it rebuilds on open so new concepts appear.
 - **"X:\Labs not reachable"** — the drive map hasn't taken; **sign out and back in** (or
   reconnect the drive), then re-run the installer.
-- **Updating to the latest skill** — run `/plugin update summit-concepts` (Cowork) or
-  re-run `Install-ReportWriter.bat` (Code). New versions come from the GitHub marketplace.
+- **Updating to the latest skill — or a skill is missing entirely** — refresh the
+  marketplace **first**, then update the plugin. The order matters:
+
+  | | Cowork | Claude Code |
+  |---|---|---|
+  | 1. Refresh the marketplace | `/plugin marketplace update summit-insights` | `claude plugin marketplace update summit-insights` |
+  | 2. Update the plugin | `/plugin update summit-concepts` | `claude plugin update summit-concepts@summit-insights` |
+  | 3. Then | start a new chat | restart Claude Code |
+
+  **Why step 1 is not optional:** Claude keeps its own clone of the marketplace repo and
+  never re-fetches it on its own. It stays pinned at whatever commit you first installed
+  from, so `/plugin update` alone has nothing newer to find and will report you're already
+  up to date. Any skill added to the marketplace *after* your install date stays invisible
+  until you refresh. If a colleague has skills you don't, this is almost always why.
+
+  (Re-running `Install-ReportWriter.bat` also works now — it performs both steps. Older
+  copies of that installer did not, and could not repair a stale install.)
 - **Skills stored somewhere unusual** — the installer targets the standard locations;
   if yours differ, tell IT and we'll adjust.
 
@@ -109,8 +124,8 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
 Claude Cowork only loads skills that arrive as an **installed plugin from a git
 marketplace** — it doesn't read a hand-copied skills folder or a local path. Serving the
 framework as a marketplace **on GitHub** means one governed source of truth: install
-once, update centrally (push → `/plugin update`), and the exact same skill runs for every
-Concept Writer in both Cowork and Claude Code.
+once, update centrally (push → `/plugin marketplace update` → `/plugin update`), and the
+exact same skill runs for every Concept Writer in both Cowork and Claude Code.
 
 ---
 

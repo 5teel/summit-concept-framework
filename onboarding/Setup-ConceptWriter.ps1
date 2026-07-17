@@ -14,12 +14,15 @@
         and the central client measure packs the VI skill reads from X:\Labs;
     1b) scaffolds the local Documents\Summit workspace (report outputs + assets);
     2)  for Claude CODE (if the `claude` CLI is present): registers the GitHub
-        marketplace and installs summit-concepts, and retires any old
-        copy-installed skills so they don't duplicate the plugin;
+        marketplace, REFRESHES it, installs summit-concepts, UPDATES it to the
+        latest published version, and retires any old copy-installed skills so
+        they don't duplicate the plugin;
     3)  prints the one-time steps for Claude COWORK (Plugins panel + Add folder x2).
 
-  Re-run any time to refresh. ASCII only (Windows PowerShell 5.1 reads no-BOM
-  UTF-8 as ANSI; non-ASCII punctuation in string literals breaks parsing).
+  Re-run any time to refresh - the marketplace-update + plugin-update steps in (2)
+  are what make a re-run actually pull new skills. Restart Claude Code afterwards.
+  ASCII only (Windows PowerShell 5.1 reads no-BOM UTF-8 as ANSI; non-ASCII
+  punctuation in string literals breaks parsing).
 
       one-click:  double-click  Install-ReportWriter.bat
       or:         powershell -ExecutionPolicy Bypass -File Setup-ConceptWriter.ps1
@@ -39,6 +42,7 @@ function Resolve-Unc([string]$path){
 
 $MarketUrl   = "https://github.com/5teel/summit-concept-framework"   # concept marketplace (GitHub)
 $MarketOwner = "5teel/summit-concept-framework"                      # owner/repo form for the Cowork dialog
+$MarketName  = "summit-insights"                                     # registered marketplace name (from marketplace.json)
 
 $here = $PSScriptRoot; if(-not $here){ $here = Split-Path -Parent $MyInvocation.MyCommand.Path }
 $repo = Split-Path -Parent $here   # the framework working copy: ...\Labs\summit-concept-framework
@@ -92,10 +96,20 @@ $claude = Get-Command claude -ErrorAction SilentlyContinue
 if($claude){
   Say ""
   Say "  Claude Code detected - installing the plugin from GitHub..." White
-  try { & claude plugin marketplace add "$MarketUrl" 2>&1 | Out-Null; Say "  [ok] marketplace 'summit-insights' registered (GitHub)" Green }
+  try { & claude plugin marketplace add "$MarketUrl" 2>&1 | Out-Null; Say ("  [ok] marketplace '{0}' registered (GitHub)" -f $MarketName) Green }
   catch { Say ("  [!] marketplace add failed (is git signed in to GitHub?): {0}" -f $_.Exception.Message) Yellow }
+  # Refresh the local marketplace clone BEFORE install/update. 'marketplace add' is a
+  # no-op once registered and never re-fetches, so without this the clone stays pinned
+  # at its original commit and 'plugin update' cannot see versions published since -
+  # new skills stay invisible forever. This is what makes a re-run actually refresh.
+  try { & claude plugin marketplace update "$MarketName" 2>&1 | Out-Null; Say ("  [ok] marketplace '{0}' refreshed to latest" -f $MarketName) Green }
+  catch { Say ("  [!] marketplace update failed: {0}" -f $_.Exception.Message) Yellow }
   try { & claude plugin install summit-concepts@summit-insights 2>&1 | Out-Null; Say "  [ok] plugin 'summit-concepts' installed (summit-new-canvas + summit-concept + summit-cdr + summit-vi-report-writer)" Green }
   catch { Say ("  [!] plugin install failed: {0}" -f $_.Exception.Message) Yellow }
+  # 'plugin install' is also a no-op when already installed, so update explicitly to
+  # pull any newer version the refresh above just made visible.
+  try { & claude plugin update summit-concepts@summit-insights 2>&1 | Out-Null; Say "  [ok] plugin 'summit-concepts' updated to the latest version" Green }
+  catch { Say ("  [!] plugin update failed: {0}" -f $_.Exception.Message) Yellow }
   # retire any old COPY-installed skills so they don't duplicate the plugin
   $sk = Join-Path $env:USERPROFILE ".claude\skills"
   $old = @("summit-concept","summit-cdr","summit-sketch","summit-concept-submit","summit-concept-harvest","summit-concept-promote","summit-concept-handoff","summit-concept-graduate")
@@ -126,6 +140,12 @@ Say "     2. Connect BOTH folders (skills read data + write outputs):" Gray
 Say "        - Add folder -> X:\Labs                        (client packs + dashboard; read)" Gray
 Say ("        - Add folder -> {0}   (your report outputs; read/write)" -f $ws) Gray
 Say "     3. Start a new chat" Gray
+Say ""
+Say "  ALREADY installed and a skill is missing? Update - in this order:" White
+Say ("     Cowork:  /plugin marketplace update {0}   then   /plugin update summit-concepts" -f $MarketName) Gray
+Say ("     Code:    claude plugin marketplace update {0}   then   claude plugin update summit-concepts@{0}" -f $MarketName) Gray
+Say "     The marketplace refresh MUST come first - without it the update finds nothing new." Gray
+Say "     Then restart Claude Code / start a new Cowork chat." Gray
 Say ""
 Say "  Then, in Cowork or Code, any time:" White
 Say '     sketch a raw idea:       "sketch this" / "new canvas" (summit-new-canvas)' Gray
