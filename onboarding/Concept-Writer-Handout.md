@@ -16,8 +16,9 @@
    the skills reach your data:
    - **`X:\Labs`** — the dashboard, templates and client packs. *(If concepts don't show
      up, re-connect this.)*
-   - **your workspace** — the exact path the installer printed (a `Summit` folder under
-     *your* Documents, so it differs per PC). Your report outputs are written here.
+   - **your working folder** — any folder you choose; your outputs (concept packages,
+     report JSON) are written there. The installer makes a `Summit` folder under your
+     Documents as a ready-made option.
 
 That's it — you now have four skills in Claude: **`summit-new-canvas`** (sketch a raw
 idea), **`summit-concept`** (add / build / submit), **`summit-cdr`** (for Strategists),

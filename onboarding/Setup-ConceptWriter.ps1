@@ -126,7 +126,8 @@ Say "     1. Plugins panel -> Add marketplace, then install the plugin:" Gray
 Say ("        - {0}   -> install 'summit-concepts'" -f $MarketOwner) Gray
 Say "     2. Connect BOTH folders (skills read data + write outputs):" Gray
 Say "        - Add folder -> X:\Labs                        (client packs + dashboard; read)" Gray
-Say ("        - Add folder -> {0}   (your report outputs; read/write)" -f $ws) Gray
+Say "        - Add folder -> ANY folder you choose as your working folder (outputs land there)" Gray
+Say ("          (ready-made default if you want one: {0})" -f $ws) Gray
 Say "     3. Start a new chat" Gray
 Say ""
 Say "  ALREADY installed and a skill is missing? Update - in this order:" White

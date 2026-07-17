@@ -40,11 +40,10 @@ the plugin there:
 4. **Connect BOTH folders.** Cowork runs in a sandbox, so this is the only way the skills
    reach your data:
    - **Add folder → `X:\Labs`** — the dashboard, templates, and client measure packs (read).
-   - **Add folder → your local workspace** — use the **exact path the installer printed**
-     (the `local workspace ready: ...` line). It is a `Summit` folder under *your* Documents,
-     so the path differs from PC to PC — if your Documents are OneDrive-redirected it looks
-     like `C:\Users\<you>\OneDrive - Summit Insights Pty Ltd\Documents\Summit`. Your report
-     outputs are written here (read/write).
+   - **Add folder → your working folder** — **any folder you choose**. This is where your
+     outputs land (concept packages, VI report JSON), so pick wherever you like to keep
+     your work. The installer creates a ready-made `Summit` folder under your Documents if
+     you want a default, but any folder works (read/write).
 5. **Start a new chat.**
 
 (If concepts aren't showing up on the dashboard, a missing `X:\Labs` connection is almost
@@ -105,8 +104,8 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
   **`Dashboard.bat`** (not the raw `index.html`); it rebuilds on open so new concepts appear.
 - **"X:\Labs not reachable"** — the drive map hasn't taken; **sign out and back in** (or
   reconnect the drive), then re-run the installer.
-- **The VI report skill can't write its output** — your local workspace isn't connected:
-  **Add folder → the workspace path the installer printed**, then re-run the command.
+- **The VI report skill can't write its output** — no working folder is connected:
+  **Add folder → any folder you use for your work**, then re-run the command.
 - **Updating to the latest skill — or a skill is missing entirely** — refresh the
   marketplace **first**, then update the plugin. The two apps do this differently —
   **Cowork has no typed plugin commands** (typing `/plugin ...` there just errors with
