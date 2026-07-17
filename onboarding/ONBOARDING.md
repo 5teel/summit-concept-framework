@@ -114,8 +114,8 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
 
   | | Cowork (Plugins panel — no typed commands) | Claude Code (terminal) |
   |---|---|---|
-  | 1. Refresh the marketplace | Open **Plugins** → find the `summit-insights` marketplace → **update / refresh** it. No such action? **Remove the marketplace and re-add** `5teel/summit-concept-framework` | `claude plugin marketplace update summit-insights` |
-  | 2. Update the plugin | The panel offers an **update** on `summit-concepts` once the marketplace is fresh (re-adding + reinstalling achieves the same) | `claude plugin update summit-concepts@summit-insights` |
+  | 1. Refresh the marketplace | Open **Plugins** → **remove** the `summit-insights` marketplace → **Add marketplace** → `5teel/summit-concept-framework` again (the panel has no refresh action — remove + re-add IS the refresh) | `claude plugin marketplace update summit-insights` |
+  | 2. Update the plugin | Install **`summit-concepts`** from the re-added marketplace | `claude plugin update summit-concepts@summit-insights` |
   | 3. Then | start a **new chat** | restart Claude Code — **open sessions keep the old skills until restarted** |
 
   **Why step 1 is not optional:** Claude keeps its own clone of the marketplace repo and
