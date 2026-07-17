@@ -33,7 +33,7 @@ Three roles, strictly separated.
 
 | Role | Produces | Owns | Never does |
 |---|---|---|---|
-| **Concept Writers** | Concepts (registered early), POC build, `NOTES.md` capture, **Submission** | The Concept stage — register + `concepts/<name>/` build & capture (`summit-concept`) | Author CDRs; run the strategy stage |
+| **Concept Writers** | Concepts (registered early), POC build, `NOTES.md` capture, **Submission** | The Concept stage — sketch (`summit-new-canvas`), then register + build & capture + submit (`summit-concept`) | Author CDRs; run the strategy stage |
 | **Strategists** | **CDRs**, promotion package, handoff | The Strategy stage — harvest, freeze, promote, handoff (`summit-cdr`) | Prescribe stack or architecture; author PRDs |
 | **Agentic Engineers** | **PRD**, ADRs, the build — *all outside this framework* | Development under the Summit Agentic Framework | Edit frozen CDRs; treat POC code as a starting codebase |
 
@@ -71,8 +71,8 @@ worth writing a PRD from.
 
 Downstream (Agentic-Engineer-owned, outside this framework): the **PRD**, ADRs, and the build.
 
-The framework lives here. Each POC workspace junction-links to it.
-Update this repo once — every concept track benefits immediately.
+The framework ships as **one Claude plugin** from this repo's marketplace. Update it
+once and push — every Concept Writer picks it up on the next plugin refresh.
 
 ---
 
@@ -83,16 +83,19 @@ The two frameworks meet at the **handoff boundary**:
 ```
  CONCEPT FRAMEWORK                                    AGENTIC FRAMEWORK (Agentic Engineers)
 ┌─────────────────────────────┐                      ┌──────────────────────────────────┐
-│ summit-concept        (CW)  │                      │ Agentic Engineers — this side    │
-│  register → dashboard entry │                      │                                  │
-│  build    → NOTES.md        │                      │  PRD          (their process,    │
-│  submit   → SUBMISSION.md   │        hand          │                from frozen CDRs, │
-├─────────────────────────────┤  ────── off ───────▶ │                per ADR standards)│
-│ summit-cdr            (ST)  │                      │  PROJECT.md   (seeded)           │
-│  harvest  → CDR-NNN records │                      │  CONTEXT.md   (seeded)           │
-│  freeze   → frozen CDRs  ⟵① │                      │  ADRs         (they decide HOW)  │
-│  promote  → PROMOTION.md    │                      │  DEPENDENCY-POLICY applies       │
-│  handoff  → the Concept     │                      │  ① freeze = the one hard stop    │
+│ summit-new-canvas     (CW)  │                      │ Agentic Engineers — this side    │
+│  sketch   → HTML canvas     │                      │                                  │
+├─────────────────────────────┤                      │  PRD          (their process,    │
+│ summit-concept        (CW)  │                      │                from frozen CDRs, │
+│  register → dashboard entry │                      │                per ADR standards)│
+│  build    → NOTES.md        │        hand          │                                  │
+│  submit   → SUBMISSION.md   │  ────── off ───────▶ │  PROJECT.md   (seeded)           │
+├─────────────────────────────┤                      │  CONTEXT.md   (seeded)           │
+│ summit-cdr            (ST)  │                      │  ADRs         (they decide HOW)  │
+│  harvest  → CDR-NNN records │                      │  DEPENDENCY-POLICY applies       │
+│  freeze   → frozen CDRs  ⟵① │                      │  ① freeze = the one hard stop    │
+│  promote  → PROMOTION.md    │                      │                                  │
+│  handoff  → the Concept     │                      │                                  │
 └─────────────────────────────┘                      └──────────────────────────────────┘
 ```
 
@@ -118,16 +121,23 @@ summit-concept-framework/              ← the Claude plugin MARKETPLACE (repo r
 ├── .claude-plugin/marketplace.json    ← lists the summit-concepts plugin
 ├── summit-concepts/                   ← the PLUGIN (source "./summit-concepts")
 │   ├── .claude-plugin/plugin.json
+│   ├── references/                    ← shared, cross-skill references
+│   │   ├── summit-context.md          ← Summit business & market context
+│   │   └── client-packs.md            ← how client measure packs are located (names no client)
 │   └── skills/
+│       ├── summit-new-canvas/         ← CW: raw idea → designed HTML sketch (upstream of register)
 │       ├── summit-concept/            ← CW: register + build & capture + submit (+ optional triage)
-│       └── summit-cdr/                ← ST: harvest → freeze → promote → handoff (one flow)
+│       ├── summit-cdr/                ← ST: harvest → freeze → promote → handoff (one flow)
+│       └── summit-vi-report-writer/   ← VI report JSON: build, extend, repair, validate
 ├── templates/
 │   ├── SUBMISSION_TEMPLATE.md         ← concept submission + optional triage verdict
 │   ├── CDR_TEMPLATE.md                ← Concept Decision Record
 │   ├── PROMOTION_TEMPLATE.md          ← business case + freeze manifest
 │   ├── NOTES_TEMPLATE.md              ← scratch buffer
 │   └── PROMOTION_RECORD_TEMPLATE.html ← promotion record (rendered)
-├── onboarding/                        ← one-click installer + quickstart for Concept Writers
+├── onboarding/                        ← one-click setup + quickstart for Concept Writers
+├── .gitignore                         ← keeps the staff roster + client packs out of this repo
+├── .gitattributes                     ← freezes the VI skill's line endings (sealed checksums)
 ├── README.md                          ← you are here
 └── PIPELINE.md                        ← the concept → VI pipeline, stage by stage
 ```
@@ -135,9 +145,11 @@ summit-concept-framework/              ← the Claude plugin MARKETPLACE (repo r
 The skills read their templates from `X:\Labs\summit-concept-framework\templates\`
 (the framework working copy on the share), so `templates/` stays at the repo root.
 
-Two skills, not five — `summit-concept` (once `summit-sketch`) folds in the old
-`-submit`, and `summit-cdr` (once `summit-concept`) folds in the old `-harvest` /
-`-promote` / `-handoff`. The only mandatory confirmation is the freeze.
+**One plugin, four skills.** The pipeline itself is two — `summit-concept` folds in the
+old `-submit`, and `summit-cdr` folds in the old `-harvest` / `-promote` / `-handoff`.
+`summit-new-canvas` sits *upstream* (sketching an idea before it is registered), and
+`summit-vi-report-writer` ships alongside as the VI report tool rather than as a pipeline
+stage. The only mandatory confirmation is the freeze.
 
 No PRD template lives here — the PRD is the Agentic Engineers' artifact, produced
 under the Agentic Framework.

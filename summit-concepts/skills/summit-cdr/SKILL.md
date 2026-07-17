@@ -1,6 +1,6 @@
 ---
 name: summit-cdr
-description: The Strategist's skill (formerly summit-concept). Turns a submitted
+description: The Strategist's skill. Turns a submitted
   Concept into a frozen, handoff-ready spec — harvest CDRs, freeze them, write the
   promotion record, and hand off to the Agentic Engineers, in one flow. One hard
   stop only — the irreversible freeze. Approval and prioritisation are handled

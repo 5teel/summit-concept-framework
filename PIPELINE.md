@@ -1,7 +1,7 @@
 # The Concept Pipeline
 
 > How an idea becomes a handoff into VI development.
-> **Two stages, two skills, one hard stop** — built for throughput, not ceremony.
+> **Two stages, one hard stop** — built for throughput, not ceremony.
 >
 > Roles: **CW** = Concept Writer · **ST** = Strategist · **AE** = Agentic Engineer.
 > Concept Writers explore and build; Strategists formalise, freeze, and hand off;
@@ -18,16 +18,19 @@
 
 | Stage | Role | Skill | Input | Output |
 |---|---|---|---|---|
+| 0. **Sketch** *(optional, upstream)* | CW | `summit-new-canvas` | A raw or half-formed idea | A designed HTML canvas + concept brief — ready to register or import |
 | 1. **Concept** | CW | `summit-concept` | An idea (even barely developed) | Concept Dashboard entry + `concepts/<name>/` scaffold, POC, `NOTES.md`, `SUBMISSION.md` |
 | 2. **Strategy** | ST → AE | `summit-cdr` | A submitted Concept | Frozen CDRs, `PROMOTION.md`, HTML record, **the Concept handoff package** |
 
 After Stage 2, ownership is the Agentic Engineers': PRD, ADRs, and build under the
 Summit Agentic Framework.
 
-The two skills replace the earlier five-skill chain. `summit-concept` (once
-`summit-sketch`) folds in the old submit step; `summit-cdr` (once `summit-concept`)
-folds in the old harvest + promote + handoff steps. Fewer commands, same durable
-record set.
+The two pipeline skills replace the earlier five-skill chain: `summit-concept` folds in
+the old submit step, and `summit-cdr` folds in the old harvest + promote + handoff steps.
+Fewer commands, same durable record set. `summit-new-canvas` is optional and sits *before*
+Stage 1 — sketch first when an idea is still half-formed, or go straight to registering it.
+(`summit-vi-report-writer` also ships in the plugin, but it builds VI reports rather than
+moving a concept through this pipeline.)
 
 ---
 

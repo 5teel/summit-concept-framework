@@ -24,7 +24,7 @@
   ASCII only (Windows PowerShell 5.1 reads no-BOM UTF-8 as ANSI; non-ASCII
   punctuation in string literals breaks parsing).
 
-      one-click:  double-click  Install-ReportWriter.bat
+      one-click:  double-click  Setup-ConceptWriter.bat
       or:         powershell -ExecutionPolicy Bypass -File Setup-ConceptWriter.ps1
 #>
 [CmdletBinding()]
@@ -154,6 +154,6 @@ Say "     or start a new idea:     summit-concept my-idea" Gray
 Say "     submit when ready:       summit-concept submit" Gray
 Say "     build a VI report:       ask Claude to build a VI report" Gray
 Say ""
-Say ("  Quickstart:  {0}\report-writer-quickstart.html" -f $here) DarkGray
+Say ("  Quickstart:  {0}\concept-writer-quickstart.html" -f $here) DarkGray
 Say ("  Full guide:  {0}\ONBOARDING.md" -f $here) DarkGray
 Say ""

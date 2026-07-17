@@ -7,16 +7,21 @@
 ## Set up once (per PC)
 
 1. On the **X:** drive, open `X:\Labs\summit-concept-framework\onboarding\` and
-   double-click **`Install-ReportWriter.bat`**.
+   double-click **`Setup-ConceptWriter.bat`**.
    *(Maps `X:` and, for Claude Code, installs the plugin.)*
 2. **In Claude Cowork:** Plugins panel → **Add marketplace** →
    `5teel/summit-concept-framework` → install **`summit-concepts`**.
    *(Start a new chat afterwards.)*
-3. **In Claude Cowork:** use **Add folder** and pick **`X:\Labs`** — Cowork is
-   sandboxed, so this is how the skill reaches the dashboard. *(If concepts don't show
-   up, re-connect `X:\Labs`.)*
+3. **In Claude Cowork:** use **Add folder** *twice* — Cowork is sandboxed, so this is how
+   the skills reach your data:
+   - **`X:\Labs`** — the dashboard, templates and client packs. *(If concepts don't show
+     up, re-connect this.)*
+   - **your workspace** — the exact path the installer printed (a `Summit` folder under
+     *your* Documents, so it differs per PC). Your report outputs are written here.
 
-That's it — you now have `summit-concept` in Claude.
+That's it — you now have four skills in Claude: **`summit-new-canvas`** (sketch a raw
+idea), **`summit-concept`** (add / build / submit), **`summit-cdr`** (for Strategists),
+and **`summit-vi-report-writer`** (VI reports).
 
 ---
 
@@ -71,6 +76,6 @@ open/refresh, so concepts added from Cowork appear straight away.
 ## Stuck?
 
 - Skill not showing in **Cowork** → the plugin isn't installed there; do step 2 above, then a new chat.
-- Skill not showing in **Code** → restart Claude Code, or re-run `Install-ReportWriter.bat`.
+- Skill not showing in **Code** → restart Claude Code, or re-run `Setup-ConceptWriter.bat`.
 - `X:\Labs` not reachable → sign out/in so the mapped drive reconnects.
 - Full guide: `onboarding\ONBOARDING.md` · Pipeline: `PIPELINE.md`

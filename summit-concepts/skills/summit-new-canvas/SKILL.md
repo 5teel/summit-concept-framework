@@ -8,8 +8,8 @@ description: >
   clients, and existing asset shelf. Use when the user says "I have an idea",
   "sketch this", "new canvas", "flesh this out", "mock up this concept", "what if
   we built…", or brings any half-formed report/app/analysis idea. Do NOT use for
-  building production VI JSON (vi-builder / vi-author), for redesigning an existing
-  report (vi-modernizer), or for polishing an already-defined deck — this skill is
+  building, repairing or redesigning production VI report JSON (that is
+  summit-vi-report-writer), or for polishing an already-defined deck — this skill is
   upstream of all of those.
 ---
 
@@ -112,7 +112,7 @@ Projects/<Concept Name>/
 
 Keep however many numbered versions actually happened and always add the final `canvas.html`. In `index.md`, preserve the original idea, chosen cut, three data states, shelf overlap, holes and patches, parked pins, confirmed assumptions, and remaining guesses.
 
-Close with who should see it next: the user's manager, Jacob, or Cam, and the decision to ask for. If it is a VI report and the user wants to proceed, point them toward `vi-designer`. Keep the folder compatible with the `summit-concept` import path by retaining the front-door note and HTML visual proof of concept.
+Close with who should see it next: the user's manager, Jacob, or Cam, and the decision to ask for. If it is a VI report and the user wants to proceed, point them toward `summit-vi-report-writer`. Keep the folder compatible with the `summit-concept` import path by retaining the front-door note and HTML visual proof of concept.
 
 ## The design process
 

@@ -7,7 +7,7 @@ The skills ship as a **Claude plugin** (`summit-concepts`) from a marketplace on
 GitHub (`5teel/summit-concept-framework`) — so there's nothing to copy around, and
 updates reach everyone from one place.
 
-> **Quickstart diagram:** open [`report-writer-quickstart.html`](report-writer-quickstart.html)
+> **Quickstart diagram:** open [`concept-writer-quickstart.html`](concept-writer-quickstart.html)
 > — the four steps, minimal fuss.
 
 ---
@@ -20,7 +20,7 @@ From the mapped **X:** drive, go to
 `X:\Labs\summit-concept-framework\onboarding\` and **double-click**:
 
 ```
-Install-ReportWriter.bat
+Setup-ConceptWriter.bat
 ```
 
 That maps the DATA share to **`X:`** (so the dashboard write-back works) and, if you
@@ -98,7 +98,7 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
   Cowork is separate from Claude Code: add the marketplace + install the plugin in the
   **Plugins** panel (step 1 above), then start a new Cowork chat.
 - **`summit-concept` doesn't appear in Claude Code** — restart Claude Code so it loads
-  the plugin, or re-run `Install-ReportWriter.bat`.
+  the plugin, or re-run `Setup-ConceptWriter.bat`.
 - **The skill runs in Cowork but can't write the concept** — Cowork can't see `X:\Labs`
   until you connect it: **Add folder → `X:\Labs`** in Cowork, then re-run the command.
 - **Concept written but not on the dashboard** — open the dashboard with
@@ -125,7 +125,7 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
   up to date. Any skill added to the marketplace *after* your install date stays invisible
   until you refresh. If a colleague has skills you don't, this is almost always why.
 
-  (Re-running `Install-ReportWriter.bat` also works now — it performs both steps. Older
+  (Re-running `Setup-ConceptWriter.bat` also works now — it performs both steps. Older
   copies of that installer did not, and could not repair a stale install.)
 - **Skills stored somewhere unusual** — the installer targets the standard locations;
   if yours differ, tell IT and we'll adjust.

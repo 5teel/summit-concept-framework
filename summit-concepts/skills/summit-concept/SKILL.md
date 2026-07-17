@@ -1,6 +1,6 @@
 ---
 name: summit-concept
-description: The Concept Writer's skill (formerly summit-sketch). A Concept is
+description: The Concept Writer's skill for registering and submitting. A Concept is
   everything from a raw idea to a working visual POC, up to the point it is submitted
   for the strategy stage. Start a fresh concept, or IMPORT one a Concept Writer already
   built — point it at a folder, an HTML file, a URL, or a runnable app and it reads
