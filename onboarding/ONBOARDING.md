@@ -108,22 +108,25 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
 - **The VI report skill can't write its output** — your local workspace isn't connected:
   **Add folder → the workspace path the installer printed**, then re-run the command.
 - **Updating to the latest skill — or a skill is missing entirely** — refresh the
-  marketplace **first**, then update the plugin. The order matters:
+  marketplace **first**, then update the plugin. The two apps do this differently —
+  **Cowork has no typed plugin commands** (typing `/plugin ...` there just errors with
+  "Unknown skill"); everything happens in its **Plugins panel**:
 
-  | | Cowork | Claude Code |
+  | | Cowork (Plugins panel — no typed commands) | Claude Code (terminal) |
   |---|---|---|
-  | 1. Refresh the marketplace | `/plugin marketplace update summit-insights` | `claude plugin marketplace update summit-insights` |
-  | 2. Update the plugin | `/plugin update summit-concepts` | `claude plugin update summit-concepts@summit-insights` |
-  | 3. Then | start a new chat | restart Claude Code |
+  | 1. Refresh the marketplace | Open **Plugins** → find the `summit-insights` marketplace → **update / refresh** it. No such action? **Remove the marketplace and re-add** `5teel/summit-concept-framework` | `claude plugin marketplace update summit-insights` |
+  | 2. Update the plugin | The panel offers an **update** on `summit-concepts` once the marketplace is fresh (re-adding + reinstalling achieves the same) | `claude plugin update summit-concepts@summit-insights` |
+  | 3. Then | start a **new chat** | restart Claude Code — **open sessions keep the old skills until restarted** |
 
   **Why step 1 is not optional:** Claude keeps its own clone of the marketplace repo and
   never re-fetches it on its own. It stays pinned at whatever commit you first installed
-  from, so `/plugin update` alone has nothing newer to find and will report you're already
+  from, so updating the plugin alone finds nothing newer and reports you're already
   up to date. Any skill added to the marketplace *after* your install date stays invisible
   until you refresh. If a colleague has skills you don't, this is almost always why.
+  Cowork and Code keep **separate clones** — updating one does not update the other.
 
-  (Re-running `Setup-ConceptWriter.bat` also works now — it performs both steps. Older
-  copies of that installer did not, and could not repair a stale install.)
+  (For Claude Code, re-running `Setup-ConceptWriter.bat` also works — it performs both
+  steps. It cannot update Cowork; only the Plugins panel can.)
 - **Skills stored somewhere unusual** — the installer targets the standard locations;
   if yours differ, tell IT and we'll adjust.
 
@@ -134,8 +137,9 @@ saved snapshot — use `Dashboard.bat` so you always see the latest.)*
 Claude Cowork only loads skills that arrive as an **installed plugin from a git
 marketplace** — it doesn't read a hand-copied skills folder or a local path. Serving the
 framework as a marketplace **on GitHub** means one governed source of truth: install
-once, update centrally (push → `/plugin marketplace update` → `/plugin update`), and the
-exact same skill runs for every Concept Writer in both Cowork and Claude Code.
+once, update centrally (admin pushes → each writer refreshes the marketplace and updates
+the plugin), and the exact same skill runs for every Concept Writer in both Cowork and
+Claude Code.
 
 ---
 

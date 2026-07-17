@@ -130,7 +130,8 @@ Say ("        - Add folder -> {0}   (your report outputs; read/write)" -f $ws) G
 Say "     3. Start a new chat" Gray
 Say ""
 Say "  ALREADY installed and a skill is missing? Update - in this order:" White
-Say ("     Cowork:  /plugin marketplace update {0}   then   /plugin update summit-concepts" -f $MarketName) Gray
+Say "     Cowork:  Plugins panel -> update/refresh the marketplace, then update the plugin" Gray
+Say "              (no typed commands in Cowork; if no update action, remove + re-add the marketplace)" Gray
 Say ("     Code:    claude plugin marketplace update {0}   then   claude plugin update summit-concepts@{0}" -f $MarketName) Gray
 Say "     The marketplace refresh MUST come first - without it the update finds nothing new." Gray
 Say "     Then restart Claude Code / start a new Cowork chat." Gray
