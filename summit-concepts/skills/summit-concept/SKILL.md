@@ -6,7 +6,9 @@ description: The Concept Writer's skill for registering and submitting. A Concep
   built — point it at a folder, an HTML file, a URL, or a runnable app and it reads
   through and captures the richest representation available (metadata, visual POC,
   key features). TOUCH an existing concept (summit-concept touch <name>) to refresh
-  its dashboard entry mid-build when development has moved on. Writes the FIRST
+  its dashboard entry mid-build when development has moved on. Pull labelled Jira
+  tickets onto the dashboard's Candidates rail (summit-concept candidates) and ADOPT
+  one into a real concept (summit-concept adopt <KEY>). Writes the FIRST
   Concept Dashboard entry so reviewers spot cross-concept synergies early. Sibling
   to summit-cdr (the Strategist's skill).
 allowed-tools:
@@ -24,7 +26,7 @@ A **Concept** is the whole Concept-Writer phase: **everything from a raw idea to
 working visual POC**, up until it is **submitted** for the strategy stage (where
 `summit-cdr` takes over). This skill owns that phase.
 
-Three entry points:
+Entry points:
 
 - **Register** — start a fresh concept (`summit-concept <name>`).
 - **Import** — point the skill at a concept a Concept Writer **already produced**
@@ -32,6 +34,9 @@ Three entry points:
 - **Touch** — refresh an existing dashboard entry mid-build
   (`summit-concept touch <name>`): re-read the POC and update the manifest so the
   dashboard reflects the current state of the work.
+- **Candidates / Adopt** — pull labelled tickets from the business Jira onto the
+  dashboard's Candidates rail (`summit-concept candidates`), then turn one into a
+  real concept (`summit-concept adopt <KEY>`).
 
 Either way, the skill writes the **first Concept Dashboard entry**. Capture early
 and often — even a barely-developed idea. The payoff: reviewers scanning the
@@ -188,6 +193,44 @@ Import: **same extraction rules, applied to a concept already on the dashboard.*
    confirm, write the manifest, regenerate (see **Concept Dashboard**). Nothing
    evidenced as changed → say so and write nothing but the `updated` bump, if the
    writer wants even that.
+
+---
+
+## Mode D — Candidates & Adopt (Jira intake)
+
+Config: `X:\Labs\jira.json` — `{ enabled, site, candidateProjects[], candidateLabel,
+storyProject }`. If `enabled` is `false` or the Atlassian MCP tools are unavailable,
+say so and stop — never fake a pull. Auth is the **official Atlassian remote MCP
+server** (each user connects it once, OAuth).
+
+### D1. `summit-concept candidates` — pull the rail
+
+1. Search Jira via the Atlassian MCP:
+   `project IN (<candidateProjects>) AND labels = <candidateLabel> AND statusCategory != Done`.
+2. Rewrite `X:\Labs\candidates.json` → `candidates: [ { key, url, summary, reporter,
+   status, adopted } ]`. **Preserve `adopted` values** for keys already present —
+   a re-pull refreshes summary/status, it never un-adopts. Tickets that no longer
+   match the query are dropped unless adopted.
+3. Set `pulledAt` to today, regenerate the dashboard (`generate.ps1`). The rail shows
+   only un-adopted candidates.
+4. Report: how many pulled, how many new since last pull, how many already adopted.
+
+### D2. `summit-concept adopt <KEY>` — candidate → concept
+
+1. Find `<KEY>` in `candidates.json` (pull first if it's missing). Already
+   `adopted` → stop and point at the existing concept.
+2. Fetch the full ticket via MCP and draft the manifest: summary → `name`
+   (slugified → `id`), description → `benefit` (one line) + `benefitDetail`,
+   reporter → noted in `notes[]` (`"! adopted from <KEY>, reported by <name>"`).
+   `stage: "concept"` — adoption never implies a POC exists. Set
+   `jira: { candidateKey: "<KEY>", candidateUrl }`.
+3. **Confirm with the Concept Writer before writing** (same rule as Import B5 —
+   never fabricate; Jira descriptions are often aspirational, capture what the
+   ticket *says*, don't inflate it).
+4. Write the manifest, set `adopted: "<concept-id>"` in `candidates.json`,
+   regenerate. Owner is the adopting Concept Writer, not the Jira reporter.
+5. From here it's a normal concept — build, touch, submit. At handoff, `summit-cdr`
+   links the build Story back to `<KEY>` automatically.
 
 ---
 

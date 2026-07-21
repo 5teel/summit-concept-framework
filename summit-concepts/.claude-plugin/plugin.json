@@ -1,6 +1,6 @@
 {
   "name": "summit-concepts",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "The Summit Concept Framework as one plugin. summit-new-canvas: flesh a raw idea into a designed HTML sketch grounded in Summit's business, data and asset shelf; summit-concept: register, import, build and submit a concept; summit-cdr: harvest CDRs, freeze, promote and hand off; summit-vi-report-writer: safely build, extend, repair and validate Visual Insights report JSON. Concept runs publish to the X:\\Labs Concept Dashboard.",
   "author": {
     "name": "Summit Insights"

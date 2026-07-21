@@ -1,8 +1,10 @@
 ---
 name: summit-cdr
 description: The Strategist's skill. Turns a submitted
-  Concept into a frozen, handoff-ready spec — harvest CDRs, freeze them, write the
-  promotion record, and hand off to the Agentic Engineers, in one flow. One hard
+  Concept into a frozen, handoff-ready spec — harvest CDRs, draft the solution
+  architecture (VI integration, build/reuse components, data dependencies, effort),
+  freeze, write the promotion record, and hand off to the Agentic Engineers, in one
+  flow — pushing a build Story to Jira at handoff when configured. One hard
   stop only — the irreversible freeze. Approval and prioritisation are handled
   informally, by team consensus, not a machine gate. Part of the Summit Concept
   Framework; everything downstream (PRD, ADRs, build) is the Agentic Engineers'.
@@ -91,7 +93,31 @@ consult them where the "why" is inferred). Show any supersession as an old→new
 
 ---
 
-## Phase B — Freeze  ⟵ THE ONE HARD STOP
+## Phase B — Solution architecture (buildability sketch)
+
+Draft `concepts/<name>/ARCHITECTURE.md` from `ARCHITECTURE_TEMPLATE.md` — after
+harvest (the CDRs tell you what the product *is*) and before freeze (so the freeze
+confirms a concept the team knows how to land). Concept-level only; it never
+prescribes stack — that's the Agentic Engineers' ADR call after handoff.
+
+1. **VI integration** — how it lands: `new report` | `panel in existing report` |
+   `backend service` | `DataFoundry job`. Name the existing report if it extends one.
+2. **Components** — each `{ kind: build|reuse|adapt, name }`. Check the asset shelf
+   (`shelf-catalogue.md` via summit-new-canvas's references, or ask engineering)
+   before marking anything `build` — reuse is the default posture.
+3. **Data dependencies** — cubes / pools / tables / feeds, prefixed by type
+   (`cube: sales_weekly`). Flag anything that doesn't exist yet; data work gates builds.
+4. **Effort** — one t-shirt size (S/M/L) judged from the components table.
+5. **Risks & assumptions** — anything inferred rather than evidenced goes here, not
+   in the sections above.
+
+Present it to the Concept Writer alongside the curated CDRs — corrections are cheap
+now, expensive after freeze. Mirror the result into the manifest's `architecture`
+block (see **Concept Dashboard**, below).
+
+---
+
+## Phase C — Freeze  ⟵ THE ONE HARD STOP
 
 - Confirm there is ≥1 `Active` CDR and **no `Needs Review` stragglers** (confirm
   them to `Active` or exclude — ask, don't decide).
@@ -104,7 +130,7 @@ consult them where the "why" is inferred). Show any supersession as an old→new
 
 ---
 
-## Phase C — Business case + PROMOTION.md
+## Phase D — Business case + PROMOTION.md
 Collect from the Concept Writer and product (ask; never invent):
 - **Value to Summit**, **who uses it** (personas / JTBD), **Summit fit** (vs the
   product & service range), **commercialisation** — **sourced from product /
@@ -124,9 +150,9 @@ baseline. Reconcile any disagreement toward the source: frozen CDRs > PROMOTION.
 
 ---
 
-## Phase D — Handoff (validate, then package)
+## Phase E — Handoff (validate, package, push to Jira)
 
-### D1. Validate — refuse loudly, not silently
+### E1. Validate — refuse loudly, not silently
 Run ALL before writing the package; any failure stops the handoff:
 1. **Frozen set matches the freeze manifest** — every CDR in PROMOTION.md's manifest
    exists in `cdr/` as `Frozen`, and no Frozen CDR is omitted. Drift → refuse.
@@ -136,7 +162,7 @@ Run ALL before writing the package; any failure stops the handoff:
 
 (No approval-block check — approval is cultural, not a machine gate.)
 
-### D2. Package the Concept for handoff
+### E2. Package the Concept for handoff
 Resolve the Agentic Framework's `project-context/` templates (`PROJECT_TEMPLATE.md`,
 `CONTEXT_TEMPLATE.md`; ask for the path if unreachable). Write to `promotion/handoff/`
 (never into the Agentic Engineers' repos):
@@ -162,6 +188,29 @@ promotion/handoff/
   ADRs, build to the evidence). Boundary rules they inherit: frozen CDRs are never
   edited and win any conflict; the POC code is a throwaway reference, never a starting
   codebase.
+
+### E3. Push the build Story to Jira (if configured)
+
+Read `X:\Labs\jira.json`. If `enabled` is `false` or the Atlassian MCP tools are
+unavailable, **skip silently** — say so in the report, never block a handoff on Jira.
+Otherwise create **one Story** in `storyProject` via the Atlassian MCP:
+
+- **Summary:** the concept `name`.
+- **Description:** `benefit` (headline) + `benefitDetail`; **Key features** as
+  bullets; **Frozen CDRs** as `CDR-NNN — title` bullets; **Solution architecture**
+  (VI integration, components with build/reuse/adapt, data dependencies, effort,
+  risks); links to the POC and the Concept Dashboard; the promotion record reference.
+- **Label:** the concept `id` (slug), for traceability.
+- If the manifest has `jira.candidateKey` (the concept was adopted from a Jira
+  candidate): **link** the new Story to that ticket (an "implemented by"-style link;
+  fall back to "relates to" if the link type doesn't exist) and drop a **comment** on
+  the original: one-paragraph dashboard summary + the new Story key. Never transition
+  or edit the original otherwise — it keeps its own lifecycle.
+- Write `jira.storyKey` / `jira.storyUrl` into the manifest (see **Concept
+  Dashboard**, below).
+
+Jira failure after the package was written = report the package as complete and the
+push as failed with the reason; the Strategist can re-run E3 alone.
 
 ---
 
@@ -190,10 +239,14 @@ Update `X:\Labs\concepts\<name>.json`, then run
 `powershell -ExecutionPolicy Bypass -NoProfile -File X:\Labs\generate.ps1`:
 
 - **While harvesting / freezing / promoting:** set `stage: "graduate"`, populate
-  `cdrs[]` (`{ id, title, type, status }`, flipping to `Frozen` at Phase B), and set
+  `cdrs[]` (`{ id, title, type, status }`, flipping to `Frozen` at Phase C), mirror
+  ARCHITECTURE.md into `architecture: { viIntegration, components:[{kind,name}],
+  dataDependencies[], effort, risks[] }` (Phase B), and set
   `promotion: { status }` (`Promoted`; add `agreedBy`/`agreedAt` only if the team noted it).
-- **After handoff (package emitted):** set `stage: "handoff"` and
-  `handoff: { seedDelivered:true, viProject }`.
+- **After handoff (package emitted):** set `stage: "handoff"`,
+  `handoff: { seedDelivered:true, viProject }`, and — if E3 pushed — merge
+  `jira: { storyKey, storyUrl }` into the manifest's existing `jira` block (preserve
+  `candidateKey`/`candidateUrl` if present).
 
 This is the concept side's last manifest write — everything after handoff is the
 Agentic Framework's to update (PRD, build, review). Bump `updated`. Contract:
