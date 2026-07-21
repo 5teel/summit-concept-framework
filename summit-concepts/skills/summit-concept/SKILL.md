@@ -245,6 +245,9 @@ Update `X:\Labs\concepts\<name>.json`, then run
     — the visual POC or the app itself.
   - **`features`** = `[ "key feature", ... ]` — the concept's user-visible features.
   - `benefitDetail`, `notes`, `project`, `area` where evidenced.
+  - **`notes` MUST be a JSON array of strings** (`[ "! decided", "? open" ]`), one
+    one-liner per entry — never a single prose string. A string here breaks the
+    dashboard row render.
 - **Build & capture:** advance to `stage: "explore"`.
 - **Submit:** set `stage: "submit"` and
   `submission: { status:"Submitted", problem, baselineRunnable, evidence, gaps }`.
