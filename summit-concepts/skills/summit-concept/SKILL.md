@@ -5,8 +5,10 @@ description: The Concept Writer's skill for registering and submitting. A Concep
   for the strategy stage. Start a fresh concept, or IMPORT one a Concept Writer already
   built — point it at a folder, an HTML file, a URL, or a runnable app and it reads
   through and captures the richest representation available (metadata, visual POC,
-  key features). Writes the FIRST Concept Dashboard entry so reviewers spot
-  cross-concept synergies early. Sibling to summit-cdr (the Strategist's skill).
+  key features). TOUCH an existing concept (summit-concept touch <name>) to refresh
+  its dashboard entry mid-build when development has moved on. Writes the FIRST
+  Concept Dashboard entry so reviewers spot cross-concept synergies early. Sibling
+  to summit-cdr (the Strategist's skill).
 allowed-tools:
   - Read
   - Write
@@ -22,11 +24,14 @@ A **Concept** is the whole Concept-Writer phase: **everything from a raw idea to
 working visual POC**, up until it is **submitted** for the strategy stage (where
 `summit-cdr` takes over). This skill owns that phase.
 
-Two ways in:
+Three entry points:
 
 - **Register** — start a fresh concept (`summit-concept <name>`).
 - **Import** — point the skill at a concept a Concept Writer **already produced**
   (`summit-concept import <path-or-url>`) and it reads through and captures it.
+- **Touch** — refresh an existing dashboard entry mid-build
+  (`summit-concept touch <name>`): re-read the POC and update the manifest so the
+  dashboard reflects the current state of the work.
 
 Either way, the skill writes the **first Concept Dashboard entry**. Capture early
 and often — even a barely-developed idea. The payoff: reviewers scanning the
@@ -154,6 +159,38 @@ project. Scaffold an overlay only if the Concept Writer wants to keep building i
 
 ---
 
+## Mode C — Touch (refresh an existing entry mid-build)
+
+Run `summit-concept touch <name>` any time development has moved on since the last
+skill run and the dashboard entry looks stale. Touch is the lightweight sibling of
+Import: **same extraction rules, applied to a concept already on the dashboard.**
+
+1. **Locate the manifest** — `X:\Labs\concepts\<name>.json` (slugify `<name>` and
+   fuzzy-match against existing manifest ids if it doesn't hit exactly). No manifest →
+   stop and point the writer at Register / Import instead; touch never creates entries.
+2. **Re-read the source** — follow `poc.ref` (and the `concepts/<name>/` overlay with
+   its `NOTES.md`, if one exists) and re-extract exactly as Import does: B2 for the
+   POC pointer, B3 for `features[]`, B1 for `benefitDetail`. Read-only toward the
+   source, as always.
+3. **Update only what changed and is evidenced:**
+   - `features[]` — replace with the current user-visible set.
+   - `benefitDetail` — refresh if the concept's scope has genuinely moved.
+   - `poc` — re-point `ref` / `label` if the artefact moved or the run command changed.
+   - `notes` — sync new `!` / `?` one-liners from `NOTES.md` (**array of strings**, as
+     per the manifest rules).
+   - `stage` — the only permitted move is `concept` → `explore` when a working POC now
+     exists. Touch never advances to `submit` or beyond, and never moves a stage
+     backwards.
+   - `updated` — bump to today.
+4. **Never touch** `submission`, `cdrs`, `promotion`, `handoff`, `agentic`, `rename`,
+   `created`, `owner` — those belong to other steps and other skills.
+5. **Show the diff, then write** — present the changed fields (old → new) for a quick
+   confirm, write the manifest, regenerate (see **Concept Dashboard**). Nothing
+   evidenced as changed → say so and write nothing but the `updated` bump, if the
+   writer wants even that.
+
+---
+
 ## Build & Capture (fresh concepts)
 
 Just build. The only discipline is the **one-liner habit** in `NOTES.md` at each
@@ -249,6 +286,7 @@ Update `X:\Labs\concepts\<name>.json`, then run
     one-liner per entry — never a single prose string. A string here breaks the
     dashboard row render.
 - **Build & capture:** advance to `stage: "explore"`.
+- **Touch:** rewrite only the evidenced fields per Mode C; bump `updated`.
 - **Submit:** set `stage: "submit"` and
   `submission: { status:"Submitted", problem, baselineRunnable, evidence, gaps }`.
 - **Triage (if used):** set `submission.status`; on **Returned** set `stage:"returned"`; assign the Strategist as `cw`.
